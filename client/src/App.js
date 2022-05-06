@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -12,19 +13,19 @@ function App() {
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Marvel API</h1>
-                    <div>
-                        <Link className="showlink" to="/">
+                    <div className="w-100">
+                        <Link className="showlink float-center" to="/">
                             Show me the ducks!
                         </Link>
-                        <Link className="showlink" to="/characters/page/0">
+                        <Link className="showlink float-end" to="/login">
                             Login
                         </Link>
-                        <Link className="showlink" to="/comics/page/0">
+                        {/* <Link className="showlink" to="/signup">
                             Sign Up
                         </Link>
-                        <Link className="showlink" to="/series/page/0">
+                        <Link className="showlink" to="/logout">
                             Logout
-                        </Link>
+                        </Link> */}
                     </div>
                 </header>
                 <br />
