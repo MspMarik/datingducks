@@ -2,9 +2,9 @@
     "name": "datingducks_server",
     "version": "1.0.0",
     "description": "Server for Dating Ducks Applicatioon",
-    "main": "app.js",
+    "main": "index.js",
     "scripts": {
-        "start": "node app.js"
+        "start": "node index.js"
     },
     "author": "Mom's Jazz",
     "license": "MIT",
