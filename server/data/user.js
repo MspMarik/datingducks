@@ -13,7 +13,9 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     if (!age) throw "age not provided";
     if (typeof age != "int") throw "age is not an int";
 
-    // TODO idk if i'm doing this? it would be better off as a button or something
+    // TODO gender idk if i'm doing this? it would be better off as a button or something
+    if (!gender) throw "gender must be provided";
+    if (typeof gender != "string") throw "gender is not a string";
 
     if (!email) throw "no email provided";
     if (typeof email != "string") throw "email is not a string";
@@ -33,6 +35,8 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     if (typeof dlikes != "string") throw "likes not a string";
 
     // TODO status should be a button?
+    if (!gender) throw "gender must be provided";
+    if (typeof gender != "string") throw "gender is not a string";
 
     const userColl = await users();
     const ifExist = await userColl.findOne({ name: name, email: email, username: uname });
@@ -62,3 +66,64 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     return user;
     //returns user or user id i don't remember lol
 }
+
+async function getAll() {
+    if (arguments.length != 0) throw "no argument needed";
+    const uList = await uCollection.find({}).toArray();
+    return uList;
+}
+
+async function getID(id) {
+    if (!id) throw "no id provided";
+    if (typeof id != "string") throw "id is not a string";
+    // check if its a valid ObjectId
+    if (!ObjectId.isValid(id)) throw "object id is not valid";
+    const uColl = await users();
+    const users = await uColl.findOne({ _id: id });
+    if (users === null) throw "no user with that id";
+    return users;
+}
+
+async function addLike(uid, mid) {
+    //TODO
+    if (!uid) throw "no id provided";
+    if (typeof uid != "string") throw "user id is not a string";
+    if (!mid) throw "no id provided";
+    if (typeof mid != "string") throw "match id is not a string";
+    if (!ObjectId.isValid(uid)) throw "user id is not valid";
+    if (!ObjectId.isValid(mid)) throw "match id is not valid";
+    let user = await this.getID(uid);
+    //TODO check they are not there already
+    if (user.likes.indexOf(mid)) throw "user is already liked";
+    user.likes.push(mid);
+    let userObj = {
+        _id: x,
+        name: user.name,
+        age: user.age,
+        gender: user.gender,
+        email: user.email,
+        pic: user.pic,
+        username: user.uname,
+        password: user.pword,
+        bio: user.bio,
+        likes: user.likes,
+        dlikes: user.dlikes,
+        iducks: user.iducks,
+        status: user.status,
+    };
+    const updatedInfo = await userColl.update({ _id: id }, { $set: updatedData });
+    if (updatedInfo.modifiedCount === 0) throw "could not add like successfully";
+    return await this.get(uid);
+    // TODO need to check to see if there is a match
+}
+
+async function checkMatch(uid, mid) {}
+
+async function remMatch(uid, mid) {
+    if (!uid) throw "no id provided";
+    if (typeof uid != "string") throw "user id is not a string";
+    if (!mid) throw "no id provided";
+    if (typeof mid != "string") throw "match id is not a string";
+}
+
+async function updateUser(uid) {}
