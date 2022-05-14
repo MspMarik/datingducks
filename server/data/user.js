@@ -276,6 +276,28 @@ async function getNext(id) {
     // TODO get user collection, filter by preferences as an array
     // TODO check array length, get random number =< length
     // TODO return profile
+    const user = getID(id);
+    const userList = getAll();
+    let resArr = [];
+    // if the user has no preference, everyone could be a potential profile
+    if (user.prefs.includes("any") == false) {
+        userList.forEach((u) => {
+            if (user.prefs.includes(userList.gender)) {
+                // check to see if the user prefers the current user
+                resArr.push(u);
+            }
+        });
+    } else {
+        resArr = userList;
+    }
+    for (let i = 0; i < resArr.length; i++) {
+        if (u.prefs.includes(user.gender)) {
+            resArr.splice(i, 1);
+        }
+    }
+    let num = Math.floor(Math.random() * (resArr.length + 1));
+    let show = getID(resArr[num]);
+    return show;
 }
 
 module.exports = {
