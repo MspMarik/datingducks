@@ -4,6 +4,7 @@ import "./App.css";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Matches from "./components/Matches";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 function App() {
@@ -14,8 +15,11 @@ function App() {
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Marvel API</h1>
                     <div className="w-100">
-                        <Link className="showlink float-center" to="/">
-                            Show me the ducks!
+                        <Link id="ducksTab" className="showlink float-center" to="/">
+                            Find Ducks
+                        </Link>
+                        <Link id="matchesTab" className="showlink float-center" to="/matches">
+                            Matches
                         </Link>
                         <Link className="showlink float-end" to="/login">
                             Login
@@ -35,6 +39,7 @@ function App() {
                         <Route exact path="/" element={<Home />} />
                         <Route exact path="/login" element={<Login />} />
                         <Route exact path="/signup" element={<Signup />} />
+                        <Route exact path="/signup" element={<Matches />} />
                     </Routes>
                 </div>
             </div>

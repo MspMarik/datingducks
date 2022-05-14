@@ -29,11 +29,14 @@ const Home = () => {
     } else {
         return (
             <div className="container align-self-center" style={{ width: "40rem" }}>
+                <Link className="signuponloginpagelink mb-4" to="/signup">
+                    Don't have an account? Click here to sign up!
+                </Link>
                 <Card className="card-shadow">
                     <Card.Header>
                         <h2>Login</h2>
                     </Card.Header>
-                    <Form className="p-3">
+                    <Form className="p-3 text-start">
                         <Form.Group className="mb-3" controlId="loginUser">
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="username" placeholder="Username" />
@@ -48,9 +51,6 @@ const Home = () => {
                         </Button>
                     </Form>
                 </Card>
-                <Link className="signuponloginpagelink mt-4" to="/signup">
-                    Don't have an account? Click here to sign up!
-                </Link>
             </div>
         );
     }
