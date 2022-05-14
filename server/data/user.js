@@ -126,12 +126,12 @@ async function checkMatch(uid, mid) {
 
             let user1Matches = user1.matches.push(mid);
             let user2Matches = user2.matches.push(uid);
-            
+
             const updatedInfo1 = await userColl.updateOne({ _id: id }, { $set: { matches: user1Matches } });
             if (updatedInfo1.modifiedCount === 0) {
                 throw "could not update matches successfully for user 1";
             }
-            const updatedInfo2 = await userColl.updateOne({ _id: id }, { $set: {}matches: user2Matches });
+            const updatedInfo2 = await userColl.updateOne({ _id: id }, { $set: { matches: user2Matches } });
             if (updatedInfo2.modifiedCount === 0) {
                 throw "could not update matches successfully for user 2";
             }
@@ -158,9 +158,9 @@ async function addLike(uid, mid) {
     let iducksArr = user.iducks.push(mid);
     //TODO check they are not there already
     if (user.iducks.indexOf(mid) != -1) throw "user is already liked";
-    
+
     const userColl = await users();
-    const updatedInfo = await userColl.updateOne({ _id: uid }, { $set: {iducks:iducksArr} });
+    const updatedInfo = await userColl.updateOne({ _id: uid }, { $set: { iducks: iducksArr } });
     if (updatedInfo.modifiedCount === 0) throw "could not add like successfully";
     // TODO need to check to see if there is a match
     return await checkMatch(uid, mid);
