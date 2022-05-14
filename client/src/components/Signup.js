@@ -55,6 +55,33 @@ const Signup = () => {
         document.getElementById("oGenderText").setAttribute("required", "");
     }
 
+    function aPref() {
+        document.getElementById("mPref").checked = false;
+        document.getElementById("fPref").checked = false;
+        document.getElementById("oPref").checked = false;
+        document.getElementById("mPref").removeAttribute("required");
+        document.getElementById("fPref").removeAttribute("required");
+        document.getElementById("oPref").removeAttribute("required");
+    }
+
+    function mfoPref() {
+        if (document.getElementById("mPref").checked === true && document.getElementById("fPref").checked === true && document.getElementById("oPref").checked === true) {
+            document.getElementById("aPref").checked = true;
+            aPref();
+        } else if (document.getElementById("mPref").checked === false && document.getElementById("fPref").checked === false && document.getElementById("oPref").checked === false && document.getElementById("aPref").checked === false) {
+            document.getElementById("mPref").setAttribute("required", "");
+            document.getElementById("fPref").setAttribute("required", "");
+            document.getElementById("oPref").setAttribute("required", "");
+            document.getElementById("aPref").setAttribute("required", "");
+        } else {
+            document.getElementById("aPref").checked = false;
+            document.getElementById("mPref").removeAttribute("required");
+            document.getElementById("fPref").removeAttribute("required");
+            document.getElementById("oPref").removeAttribute("required");
+            document.getElementById("aPref").removeAttribute("required");
+        }
+    }
+
     if (loading) {
         return (
             <div>
@@ -72,44 +99,61 @@ const Signup = () => {
                         <h2>Sign Up</h2>
                     </Card.Header>
                     <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3" controlId="signupName">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control type="text" name="signupName" placeholder="Name" required />
+                        </Form.Group>
                         <Form.Group className="mb-3" controlId="signupEmail">
                             <Form.Label>Your Stevens Email</Form.Label>
-                            <Form.Control type="email" placeholder="example@stevens.edu" required />
+                            <Form.Control type="email" name="signupEmail" placeholder="example@stevens.edu" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupUser">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" placeholder="Username" required />
+                            <Form.Control type="text" name="signupUser" placeholder="Username" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupPass">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" required />
+                            <Form.Control type="password" name="signupPass" placeholder="Password" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupAge">
                             <Form.Label>Age</Form.Label>
-                            <Form.Control type="number" placeholder="Age" required />
+                            <Form.Control type="number" name="signupAge" placeholder="Age" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupGender" key="signupGender">
                             <Form.Label>Gender</Form.Label>
                             <Form.Check name="signupGender" id="mGender" type="radio" value="Drake (Male)" label="Drake (Male)" onClick={mGender} required />
                             <Form.Check name="signupGender" id="fGender" type="radio" value="Hen (Female)" label="Hen (Female)" onClick={fGender} required />
                             <Form.Check name="signupGender" id="oGender" type="radio" value="Goose (Other)" label="Goose (Other)" onClick={oGender} required />
-                            <Form.Control id="oGenderText" type="text" placeholder="If other, please specify your gender here" disabled />
+                            <Form.Control name="signupOtherGenderText" id="oGenderText" type="text" placeholder="If other, please specify your gender here" disabled />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="signupPref" key="signupPref">
+                            <Form.Label>Preference</Form.Label>
+                            <Form.Check name="signupPref" id="mPref" type="checkbox" value="Drake (Male)" label="Drake (Male)" onClick={mfoPref} required />
+                            <Form.Check name="signupPref" id="fPref" type="checkbox" value="Hen (Female)" label="Hen (Female)" onClick={mfoPref} required />
+                            <Form.Check name="signupPref" id="oPref" type="checkbox" value="Goose (Other)" label="Goose (Other)" onClick={mfoPref} required />
+                            <Form.Check name="signupPref" id="aPref" type="checkbox" value="Any" label="Any" onClick={aPref} required />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="signupStatus" key="signupStatus">
+                            <Form.Label>Status</Form.Label>
+                            <Form.Check name="signupStatus" id="qStatus" type="radio" value="Quacktonic (Platonic)" label="Quacktonic (Platonic)" required />
+                            <Form.Check name="signupStatus" id="d2dStatus" type="radio" value="Down To Duck" label="Down To Duck 😏" required />
+                            <Form.Check name="signupStatus" id="rStatus" type="radio" value="Requacktionship (Relationship)" label="Requacktionship (Relationship)" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupBio">
                             <Form.Label>Bio</Form.Label>
-                            <Form.Control type="text" placeholder="Tell us about yourself!" as="textarea" required />
+                            <Form.Control type="text" name="signupBio" placeholder="Tell us about yourself!" as="textarea" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupLikes">
                             <Form.Label>Likes</Form.Label>
-                            <Form.Control type="text" placeholder="Tell us what you like with commas in between (i.e. bread, lakes, quacking)" as="textarea" required />
+                            <Form.Control type="text" name="signupLikes" placeholder="Tell us what you like with commas in between (i.e. bread, lakes, quacking)" as="textarea" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupDislikes">
                             <Form.Label>Dislikes</Form.Label>
-                            <Form.Control type="text" placeholder="Tell us what you don't like with commas in between (i.e. hunting season, Elmer Fudd, foxes)" as="textarea" required />
+                            <Form.Control type="text" name="signupDislikes" placeholder="Tell us what you don't like with commas in between (i.e. hunting season, Elmer Fudd, foxes)" as="textarea" required />
                         </Form.Group>
                         <Form.Group controlId="signupPic" className="mb-3">
                             <Form.Label>Profile Picture</Form.Label>
-                            <Form.Control type="file" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required />
+                            <Form.Control type="file" name="signupPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required />
                             {/* <Form.File type="file" onChange={(e) => console.log(e.target.files[0])} label="Profile Picture" accept=".png,.jpg,.jpeg,.webp" /> */}
                         </Form.Group>
                         <Button variant="primary" type="submit">
