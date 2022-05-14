@@ -59,14 +59,26 @@ const Signup = () => {
         document.getElementById("mPref").checked = false;
         document.getElementById("fPref").checked = false;
         document.getElementById("oPref").checked = false;
+        document.getElementById("mPref").removeAttribute("required");
+        document.getElementById("fPref").removeAttribute("required");
+        document.getElementById("oPref").removeAttribute("required");
     }
 
     function mfoPref() {
         if (document.getElementById("mPref").checked === true && document.getElementById("fPref").checked === true && document.getElementById("oPref").checked === true) {
             document.getElementById("aPref").checked = true;
             aPref();
+        } else if (document.getElementById("mPref").checked === false && document.getElementById("fPref").checked === false && document.getElementById("oPref").checked === false && document.getElementById("aPref").checked === false) {
+            document.getElementById("mPref").setAttribute("required", "");
+            document.getElementById("fPref").setAttribute("required", "");
+            document.getElementById("oPref").setAttribute("required", "");
+            document.getElementById("aPref").setAttribute("required", "");
         } else {
             document.getElementById("aPref").checked = false;
+            document.getElementById("mPref").removeAttribute("required");
+            document.getElementById("fPref").removeAttribute("required");
+            document.getElementById("oPref").removeAttribute("required");
+            document.getElementById("aPref").removeAttribute("required");
         }
     }
 
