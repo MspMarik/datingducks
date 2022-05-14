@@ -48,6 +48,26 @@
     display: inline-block;
 }
 
+.showlink:hover {
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.signuponloginpagelink {
+    /* padding: 0.4rem 0.8rem; */
+    /* border-radius: 3px; */
+    /* color: #2bffd1; */
+    /* text-decoration: none !important; */
+    /* margin: 5px; */
+    display: inline-block;
+}
+
+/* .signuponloginpagelink:hover {
+    color: white;
+    border: 2px solid white;
+} */
+
 .prevnext {
     padding: 0.4rem 0.8rem;
     background-color: #282c34;
@@ -56,12 +76,6 @@
     text-decoration: none !important;
     margin: 5px;
     display: inline-block;
-}
-
-.showlink:hover {
-    background-color: transparent;
-    color: white;
-    border: 2px solid white;
 }
 
 .hometext {
