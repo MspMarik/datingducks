@@ -73,8 +73,8 @@ const Home = () => {
                     </Card.Header>
                     <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="signupEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Email" required />
+                            <Form.Label>Your Stevens Email</Form.Label>
+                            <Form.Control type="email" placeholder="example@stevens.edu" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupUser">
                             <Form.Label>Username</Form.Label>
@@ -105,7 +105,7 @@ const Home = () => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupDislikes">
                             <Form.Label>Dislikes</Form.Label>
-                            <Form.Control type="text" placeholder="Tell us what you don't like with commas in between (i.e. hunting season, hunters, foxes)" as="textarea" required />
+                            <Form.Control type="text" placeholder="Tell us what you don't like with commas in between (i.e. hunting season, Elmer Fudd, foxes)" as="textarea" required />
                         </Form.Group>
                         <Form.Group controlId="signupPic" className="mb-3">
                             <Form.Label>Profile Picture</Form.Label>

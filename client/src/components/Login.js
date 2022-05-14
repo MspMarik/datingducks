@@ -14,11 +14,22 @@ import "../App.css";
 
 const Home = () => {
     const [loading, setLoading] = useState(true);
+    const [validated, setValidated] = useState(false);
 
     useEffect(() => {
         setLoading(true);
         setLoading(false);
     }, []);
+
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        setValidated(true);
+    };
 
     if (loading) {
         return (
@@ -36,15 +47,15 @@ const Home = () => {
                     <Card.Header>
                         <h2>Login</h2>
                     </Card.Header>
-                    <Form className="p-3 text-start">
+                    <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="loginUser">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" placeholder="Username" />
+                            <Form.Control type="username" placeholder="Username" required />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="loginPass">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                            <Form.Control type="password" placeholder="Password" required />
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit
