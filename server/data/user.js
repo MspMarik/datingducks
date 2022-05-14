@@ -57,6 +57,7 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
         likes: likes,
         dlikes: dlikes,
         iducks: [],
+        matches: [],
         status: status,
     };
     const insertInfo = await userColl.insertOne(userObj);
@@ -84,6 +85,69 @@ async function getID(id) {
     return users;
 }
 
+async function checkMatch(uid, mid) {
+    if (!uid) throw "no id provided";
+    if (typeof uid != "string") throw "user id is not a string";
+    if (!mid) throw "no id provided";
+    if (typeof mid != "string") throw "match id is not a string";
+    if (!ObjectId.isValid(uid)) throw "user id is not valid";
+    if (!ObjectId.isValid(mid)) throw "match id is not valid";
+    let user1 = await this.getID(uid);
+    let user2 = await this.getID(mid);
+    let match = false;
+    // need to check to see if they are in each others likes
+    if (user1.iducks.indexOf(mid) && user2.iducks.indexOf(uid)) {
+        // need to check if they are matched first
+        if (!user1.matches.indexOf(mid) && !user2.matches.indexOf(uid)) {
+            match = true;
+            let newUser1 = {
+                name: user1.name,
+                age: user1.age,
+                gender: user1.gender,
+                email: user1.email,
+                pic: user1.pic,
+                username: user1.uname,
+                password: user1.pword,
+                bio: user1.bio,
+                likes: user1.likes,
+                dlikes: user1.dlikes,
+                iducks: user1.iducks,
+                matches: user1.matches.push(mid),
+                status: user1.status,
+            };
+            let newUser2 = {
+                name: user2.name,
+                age: user2.age,
+                gender: user2.gender,
+                email: user2.email,
+                pic: user2.pic,
+                username: user2.uname,
+                password: user2.pword,
+                bio: user2.bio,
+                likes: user2.likes,
+                dlikes: user2.dlikes,
+                iducks: user2.iducks,
+                matches: user2.matches.push(uid),
+                status: user2.status,
+            };
+            const updatedInfo1 = await userColl.updateOne({ _id: id }, { $set: newUser1 });
+            if (updatedInfo1.modifiedCount === 0) {
+                throw "could not update matches successfully for user 1";
+            }
+            const updatedInfo2 = await userColl.updateOne({ _id: id }, { $set: newUser2 });
+            if (updatedInfo2.modifiedCount === 0) {
+                throw "could not update matches successfully for user 2";
+            }
+        }
+    }
+    let matchObj = {
+        user1: uid,
+        user2: mid,
+        match: match,
+    };
+    return matchObj;
+}
+
 async function addLike(uid, mid) {
     //TODO
     if (!uid) throw "no id provided";
@@ -94,10 +158,8 @@ async function addLike(uid, mid) {
     if (!ObjectId.isValid(mid)) throw "match id is not valid";
     let user = await this.getID(uid);
     //TODO check they are not there already
-    if (user.likes.indexOf(mid)) throw "user is already liked";
-    user.likes.push(mid);
+    if (user.iducks.indexOf(mid)) throw "user is already liked";
     let userObj = {
-        _id: x,
         name: user.name,
         age: user.age,
         gender: user.gender,
@@ -108,16 +170,15 @@ async function addLike(uid, mid) {
         bio: user.bio,
         likes: user.likes,
         dlikes: user.dlikes,
-        iducks: user.iducks,
+        iducks: user.iducks.push(mid),
+        matches: user.matches,
         status: user.status,
     };
-    const updatedInfo = await userColl.update({ _id: id }, { $set: updatedData });
+    const updatedInfo = await userColl.updateOne({ _id: id }, { $set: userObj });
     if (updatedInfo.modifiedCount === 0) throw "could not add like successfully";
-    return await this.get(uid);
     // TODO need to check to see if there is a match
+    return await checkMatch(uid, mid);
 }
-
-async function checkMatch(uid, mid) {}
 
 async function remMatch(uid, mid) {
     if (!uid) throw "no id provided";
@@ -127,3 +188,13 @@ async function remMatch(uid, mid) {
 }
 
 async function updateUser(uid) {}
+
+module.exports = {
+    create,
+    getAll,
+    getID,
+    checkMatch,
+    addLike,
+    remMatch,
+    updateUser,
+};
