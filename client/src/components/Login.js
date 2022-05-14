@@ -12,7 +12,7 @@ import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
 
-const Home = () => {
+const Login = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
 
@@ -67,4 +67,4 @@ const Home = () => {
     }
 };
 
-export default Home;
+export default Login;

@@ -40,18 +40,26 @@
 
 .showlink {
     padding: 0.4rem 0.8rem;
-    background-color: white;
-    border-radius: 3px;
+    background-color: rgb(179, 179, 179);
+    border-radius: 10px 10px 0 0;
     color: #2bffd1;
     text-decoration: none !important;
-    margin: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: -10px;
     display: inline-block;
+    position: relative;
+    bottom: -10px;
 }
 
 .showlink:hover {
-    background-color: transparent;
-    color: white;
-    border: 2px solid white;
+    background-color: white;
+    color: pink;
+}
+
+.showlinkActive {
+    background-color: white;
+    color: pink;
 }
 
 .signuponloginpagelink {

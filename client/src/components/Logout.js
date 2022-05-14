@@ -12,7 +12,7 @@ import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
 
-const Matches = () => {
+const Signout = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
 
@@ -40,9 +40,12 @@ const Matches = () => {
     } else {
         return (
             <div className="container align-self-center" style={{ width: "40rem" }}>
+                <Link className="signuponloginpagelink mb-4" to="/signup">
+                    Don't have an account? Click here to sign up!
+                </Link>
                 <Card className="card-shadow">
                     <Card.Header>
-                        <h2>Matches</h2>
+                        <h2>Login</h2>
                     </Card.Header>
                     <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="loginUser">
@@ -64,4 +67,4 @@ const Matches = () => {
     }
 };
 
-export default Matches;
+export default Signout;

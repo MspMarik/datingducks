@@ -12,7 +12,7 @@ import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
 
-const Matches = () => {
+const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
 
@@ -42,7 +42,7 @@ const Matches = () => {
             <div className="container align-self-center" style={{ width: "40rem" }}>
                 <Card className="card-shadow">
                     <Card.Header>
-                        <h2>Matches</h2>
+                        <h2>Profile</h2>
                     </Card.Header>
                     <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="loginUser">
@@ -64,4 +64,4 @@ const Matches = () => {
     }
 };
 
-export default Matches;
+export default Profile;
