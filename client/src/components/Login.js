@@ -50,12 +50,12 @@ const Login = () => {
                     <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="loginUser">
                             <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" placeholder="Username" required />
+                            <Form.Control name="loginUser" type="text" placeholder="Username" required />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="loginPass">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" required />
+                            <Form.Control name="loginPass" type="password" placeholder="Password" required />
                         </Form.Group>
                         <Button variant="primary" type="submit">
                             Submit
