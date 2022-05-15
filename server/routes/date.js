@@ -37,19 +37,21 @@ router.get('/:id', async (req, res) => {
     const result = await data.getID(req.params.id);
     res.status(200).json(result);
   } catch (e) {
-    res.status(404).json({ error:"Person not found" });
+    return res.status(404).json({ error:"Person not found" });
   }
 });
 router.get('/', async (req, res) => {
+  let result
   try{
-    const result =await data.getAll();
-    res.status(400).json(result);
+    result =await data.getAll();
+    
 
   }
   catch(e)
   {
-    res.status(404).json({ error:"Person not found" });
+    return res.status(400).json({ error:"Person not found" });
   }
+  res.status(200).json(result);
 })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.post('/like',async (req, res) => {
@@ -61,7 +63,7 @@ router.post('/like',async (req, res) => {
     //res.status(200).json(result);
   }
   catch(e){
-  res.status(400).json({error: e})
+  return res.status(400).json({error: e})
   console.log(e);
   
   }
@@ -76,11 +78,11 @@ router.post('/', upload.single('signupPic'), async (req, res) =>
   console.log(req.file);
   if(!body)
   {
-    res.status(400).json({ error:"Error: There is no data"});
+    return res.status(400).json({ error:"Error: There is no data"});
   }
   if(!body.signupName||!body.signupAge||!body.signupGender||!body.signupEmail||!body.signupUser||!body.signupPass||!body.signupBio||!body.signupLikes||!body.signupDislikes||!body.signupStatus||!body.signupPref)
   {
-    res.status(400).json({ error:"Error: There is no data"});
+    return res.status(400).json({ error:"Error: There is no data"});
   }
   /////////////////////////////////////////////////////////////change the where thr 
   let name = body.signupName;
@@ -116,23 +118,23 @@ router.post('/', upload.single('signupPic'), async (req, res) =>
 
   if(typeof name !="string"||typeof pref !="string"||typeof gender !="string"||typeof email!="string" || typeof pic !="string" ||typeof username != "string"||typeof password !="string" ||typeof bio !="string"|| typeof status!= "string"|| typeof age!="number", typeof likes !="string",typeof dislikes!= "string")
   {
-    res.status(400).json({ error:"Error: Wring type of info"});
+    return res.status(400).json({ error:"Error: Wring type of info"});
   }
 
   if(age<18||age>125)
   {
-    res.status(400).json({ error:"Error: age is not valid"});
+    return res.status(400).json({ error:"Error: age is not valid"});
   }
   let pattern =
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if(!email.match(pattern))
   {
-    res.status(400).json({ error:"Error: email dont match the requirements"});
+   return res.status(400).json({ error:"Error: email dont match the requirements"});
   }
   try{
     const returnVal  = await data.create(name,age,gender, email, pic, username, password, bio, likes, dislikes, status, pref);
-    res.status(400).json(returnVal);
+     res.status(200).json(returnVal);
   }
   catch(e)
   {
@@ -148,30 +150,31 @@ router.post('/', upload.single('signupPic'), async (req, res) =>
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 router.put('/:id',async (req, res)=>
 {
+  ///ask if we could pass email and username or just unmod it?
 
   let body = req.body;
   let id = req.params.id;
   console.log(req.file)
   if(!body)
   {
-    res.status(400).json({ error:"Error: There is no data"});
+    return res.status(400).json({ error:"Error: There is no data"});
   }
-  if(!body.name||!body.age||!body.gender||!body.email||!body.username||!body.password||!body.bio||!body.likes||!body.dislikes||!body.likeProf||!body.status)
+  if(!body.profileNewName||!body.profileNewAge||!body.profileNewGender||!body.profileNewPass||!body.profileNewBio||!body.profileNewLikes||!body.profileNewDislikes||!body.profileNewStatus||!body.profileNewPrefer)
   {
-    res.status(400).json({ error:"Error: There is no data"});
+    return res.status(400).json({ error:"Error: There is no data"});
   }
   /////////////////////////////////////////////////////////////change the where thr 
   let name = body.profileNewName;
-  let age = Number(body.age);
+  let age = Number(body.profileNewAge);
   let gender = body.profileNewGender;
   let pic;
   if (!req.files)
   {
-    pic = body.pic;
+    pic = body.profileNewPic;
   }
   else
   {
-    upload.single('profile');
+    upload.single('profileNewPic');
     pic = req.files.filename;
 
   }
@@ -180,26 +183,39 @@ router.put('/:id',async (req, res)=>
   let likes = body.profileNewLikes;
   let dislikes = body.profileNewDislikes;
   let status = body.profileNewStatus;
-  let pref = body.profileNewPreference;
+  let pref = body.profileNewPrefer;
+  let email = body.profileNewEmail;
+  let username = body.profileNewUser;
+
+  
 
 
 
-  if(typeof name !="string"||typeof gender !="string"||typeof email!="string" || typeof pic !="string" ||typeof dislikes =="string"||typeof likes =="string"||typeof username != "string"||typeof password !="string" ||typeof bio !="string"|| typeof status!= "string"|| typeof age!="number")
+  if(typeof name !="string"||typeof gender !="string"||typeof email!="string" || typeof pic !="string" ||typeof dislikes !="string"||typeof likes !="string"||typeof username != "string"||typeof password !="string" ||typeof bio !="string"|| typeof status!= "string"|| typeof age!="number")
   {
-    res.status(400).json({ error:"Error: Wring type of info"});
+    return res.status(400).json({ error:"Error: Wring type of info"});
   }
   
   if(age<18||age>125)
   {
-    res.status(400).json({ error:"Error: age is not valid"});
+   return res.status(400).json({ error:"Error: age is not valid"});
   }
   let pattern =
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   if(!email.match(pattern))
   {
-    res.status(400).json({ error:"Error: email dont match the requirements"});
+    return res.status(400).json({ error:"Error: email dont match the requirements"});
   }
+  let result;
+  try{
+    result = await data.updateUser(id,name, age,gender,email,pic,username,password,bio,likes,dislikes,status,pref);
+
+  }
+  catch(e){
+    return res.status("400").json({error:e})
+  }
+  res.status("200").json(result);
   //data.update
   //res status whatever updates returns
   //catch likeprof in database
@@ -208,26 +224,30 @@ router.put('/:id',async (req, res)=>
 router.delete("/match", async(req,res)=>{
 let currentID = req.body.currentID;
 let deletedID = req.body.matchID;
+let results;
 try{
-  let results = await data.remMatch(currentID,deleteID)
-  res.status(200).json(results);
+  results = await data.remMatch(currentID,deletedID)
+ 
 }
 catch(e)
 {
-  res.status(400).json({error:e})
+  return res.status(400).json({error:e})
 }
+res.status(200).json(results);
 })
 router.get("/random/:id", async(req,res)=>{
   let id = req.params.id;
+  let results;
   try{
-    const results =data.getRandom(id)
-    res.status("200").json(results);
+    results =await data.getNext(id)
+    
   }
   catch(e)
   {
     res.status("400").json({error:e})
     //
   }
+  res.status("200").json(results);
 })
 
 

@@ -58,7 +58,7 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     if (typeof gender != "string") throw "gender is not a string";
 
     if (!prefs) throw "preferences not provided";
-    if (typeof prefs != "string") throw "preferences must be a string";
+    if (!Array.isArray(prefs)) throw "preferences must be an array";
 
     const userColl = await users2();
     const ifExist = await userColl.findOne({ name: name, email: email, username: uname });
@@ -291,15 +291,15 @@ async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, 
 }
 
 async function getNext(id) {
-    const user = getID(id);
-    const userList = getAll();
+    const user = await getID(id);
+    const userList =  await getAll();
     let resArr = [];
 
     // if the user has no preference, everyone could be a potential profile
     // TODO get user collection, filter by preferences as an array
-    if (user.prefs.includes("any") == false) {
+    if (user.preferences.includes("Any") == false) {
         userList.forEach((u) => {
-            if (user.prefs.includes(u.gender)) {
+            if (user.preferences.includes(u.gender)) {
                 // check to see if the user prefers the current user
                 resArr.push(u);
             }
@@ -308,15 +308,16 @@ async function getNext(id) {
         resArr = userList;
     }
     for (let i = 0; i < resArr.length; i++) {
-        if (u.prefs.includes(user.gender) == false) {
+        if (resArr[i].preferences.includes(user.gender) == false) {
             // if the user1 is not a pref of the user in the array, remove from the arr
             resArr.splice(i, 1);
+            i--;
         }
     }
 
     // TODO check array length, get random number =< length
     let num = Math.floor(Math.random() * (resArr.length + 1));
-    let show = getID(resArr[num]);
+    let show = await getID(resArr[num]._id);
 
     return show;
     // TODO return profile ^
