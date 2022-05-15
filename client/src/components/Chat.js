@@ -17,9 +17,12 @@ import "../App.css";
 
 const Chat = () => {
     const [loading, setLoading] = useState(true);
-    const [username, setUsername] = useState("");
+    // const [sessID, setSessID] = useState();
+    // const [username, setUsername] = useState("");
+    // const [users, setUsers] = useState([]);
 
-    const socketRef = useRef();
+
+    // const socketRef = useRef();
 
     useEffect(() => {
         setLoading(true);
@@ -32,15 +35,18 @@ const Chat = () => {
         document.getElementById("profileTab").classList.remove("showlinkActive");
     }, []);
 
-    useEffect(() => {
-        socketRef.current = io("/");
-        //check it works/connects properly
-        console.log("socket", socketRef.current);
-        socketRef.current.emit("hello", "world!");
-        return () => {
-            socketRef.current.disconnect();
-        };
-    }, []);
+    function usersToChat() {
+        //todo call db to get matches and loop to create elements
+        let users = [];
+        for (let i = 0; i < 3; i++) {
+            users.push(
+                <ListGroup.Item>
+                    <Link to={`/chat/${i}`}> user {i} </Link>
+                </ListGroup.Item>
+            );
+        }
+        return users;
+    }
 
     if (loading) {
         return (
@@ -56,11 +62,9 @@ const Chat = () => {
                         <h2>Chat</h2>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title id="name">Chat</Card.Title>
+                        <Card.Title id="name">Username ???</Card.Title>
                         <ListGroup variant="flush" className="float-center">
-                            <ListGroup.Item>
-                                <Card.Text>Jan plz do chat ty</Card.Text>
-                            </ListGroup.Item>
+                            {usersToChat()}
                         </ListGroup>
                     </Card.Body>
                 </Card>
