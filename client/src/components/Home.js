@@ -59,13 +59,6 @@ const Home = () => {
                     <Card.Img variant="top" src={markFace} />
                     <Card.Body>
                         <Card.Title id="name">Name</Card.Title>
-                        {/* <Card.Text id="age" className="float-start mx-4">
-                            age
-                        </Card.Text>
-                        <Card.Text id="gender" className="float-end mx-4">
-                            gender
-                        </Card.Text> */}
-                        {/* <br /> */}
                         <ListGroup variant="flush" className="float-center">
                             <ListGroup.Item>
                                 <Card.Text>

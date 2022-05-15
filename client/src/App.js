@@ -7,6 +7,7 @@ import Signup from "./components/Signup";
 import Matches from "./components/Matches";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
+import Chat from "./components/Chat";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         document.getElementById("profileTab").classList.remove("showlinkActive");
         document.getElementById("loginTab").classList.remove("showlinkActive");
         document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
     }
 
     function mTab() {
@@ -24,6 +26,7 @@ function App() {
         document.getElementById("profileTab").classList.remove("showlinkActive");
         document.getElementById("loginTab").classList.remove("showlinkActive");
         document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
     }
 
     function pTab() {
@@ -32,6 +35,16 @@ function App() {
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         document.getElementById("loginTab").classList.remove("showlinkActive");
         document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
+    }
+
+    function cTab() {
+        document.getElementById("chatTab").classList.add("showlinkActive");
+        document.getElementById("ducksTab").classList.remove("showlinkActive");
+        document.getElementById("matchesTab").classList.remove("showlinkActive");
+        document.getElementById("loginTab").classList.remove("showlinkActive");
+        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("profileTab").classList.remove("showlinkActive");
     }
 
     function linTab() {
@@ -40,6 +53,7 @@ function App() {
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");
         document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
     }
 
     function loutTab() {
@@ -48,6 +62,7 @@ function App() {
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");
         document.getElementById("loginTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
     }
 
     return (
@@ -65,6 +80,9 @@ function App() {
                         </Link>
                         <Link id="profileTab" className="showlink float-start" onClick={pTab} to="/profile">
                             Profile
+                        </Link>
+                        <Link id="chatTab" className="showlink float-start" onClick={cTab} to="/chat">
+                            Chat
                         </Link>
                         <Link id="loginTab" className="showlink float-end" onClick={linTab} to="/login">
                             Login
@@ -84,6 +102,7 @@ function App() {
                         <Route exact path="/logout" element={<Logout />} />
                         <Route exact path="/matches" element={<Matches />} />
                         <Route exact path="/profile" element={<Profile />} />
+                        <Route exact path="/chat" element={<Chat />} />
                     </Routes>
                 </div>
             </div>
