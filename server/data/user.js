@@ -275,9 +275,35 @@ async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, 
 }
 
 async function getNext(id) {
+    const user = getID(id);
+    const userList = getAll();
+    let resArr = [];
+
+    // if the user has no preference, everyone could be a potential profile
     // TODO get user collection, filter by preferences as an array
+    if (user.prefs.includes("any") == false) {
+        userList.forEach((u) => {
+            if (user.prefs.includes(u.gender)) {
+                // check to see if the user prefers the current user
+                resArr.push(u);
+            }
+        });
+    } else {
+        resArr = userList;
+    }
+    for (let i = 0; i < resArr.length; i++) {
+        if (u.prefs.includes(user.gender) == false) {
+            // if the user1 is not a pref of the user in the array, remove from the arr
+            resArr.splice(i, 1);
+        }
+    }
+
     // TODO check array length, get random number =< length
-    // TODO return profile
+    let num = Math.floor(Math.random() * (resArr.length + 1));
+    let show = getID(resArr[num]);
+
+    return show;
+    // TODO return profile ^
 }
 
 module.exports = {
