@@ -308,10 +308,12 @@ async function getNext(id) {
         resArr = userList;
     }
     for (let i = 0; i < resArr.length; i++) {
-        if (resArr[i].preferences.includes(user.gender) == false) {
-            // if the user1 is not a pref of the user in the array, remove from the arr
-            resArr.splice(i, 1);
-            i--;
+        if(!(resArr[i]._id == id)){
+            if (resArr[i].preferences.includes(user.gender) == false) {
+                // if the user1 is not a pref of the user in the array, remove from the arr
+                resArr.splice(i, 1);
+                i--;
+           }
         }
     }
 

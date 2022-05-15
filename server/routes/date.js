@@ -235,7 +235,7 @@ router.get("/random/:id", async(req,res)=>{
   let id = req.params.id;
   let results;
   try{
-    results =await data.getRandom(id)
+    results =await data.getNext(id)
     
   }
   catch(e)
