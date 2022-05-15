@@ -1,4 +1,5 @@
 import logo from "./ddnotextlogo.png";
+import textlogo from "./ddlogo.png";
 import "./App.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
@@ -107,6 +108,9 @@ function App() {
                     </Routes>
                 </div>
             </div>
+            <footer>
+                <img src={textlogo} className="App-logo" alt="logo" />
+            </footer>
         </Router>
     );
 }
