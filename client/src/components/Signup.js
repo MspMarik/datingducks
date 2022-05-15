@@ -90,7 +90,7 @@ const Signup = () => {
         );
     } else {
         return (
-            <div className="container align-self-center mb-5" style={{ width: "40rem" }}>
+            <div className="container align-self-center mb-5 card-container">
                 <Link className="signuponloginpagelink mb-4" to="/login">
                     Already have an account? Click here to login!
                 </Link>

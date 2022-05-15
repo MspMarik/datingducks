@@ -60,7 +60,7 @@ const Matches = () => {
         );
     } else {
         return (
-            <div className="container align-self-center" style={{ width: "40rem" }}>
+            <div className="container align-self-center card-container">
                 <Card className="card-shadow">
                     <Card.Header>
                         <h2>Matches</h2>
