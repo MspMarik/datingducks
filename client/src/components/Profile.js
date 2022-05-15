@@ -97,7 +97,7 @@ const Profile = () => {
         );
     } else {
         return (
-            <div className="container align-self-center mb-5" style={{ width: "40rem" }}>
+            <div className="container align-self-center mb-5 card-container">
                 <p>Here you can update your information of you want.</p>
                 <Card className="card-shadow">
                     <Card.Header>
