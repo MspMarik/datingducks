@@ -117,7 +117,7 @@ const Signup = () => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupAge">
                             <Form.Label>Age</Form.Label>
-                            <Form.Control type="number" name="signupAge" placeholder="Age" required />
+                            <Form.Control type="number" name="signupAge" placeholder="Age" min="18" max="125" required />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="signupGender" key="signupGender">
                             <Form.Label>Gender</Form.Label>
