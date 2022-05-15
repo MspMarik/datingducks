@@ -1,4 +1,5 @@
-import logo from "./spinning-duck.gif";
+import logo from "./ddnotextlogo.png";
+import textlogo from "./ddlogo.png";
 import "./App.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
@@ -71,6 +72,7 @@ function App() {
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Dating Ducks</h1>
+
                     <div className="w-100">
                         <Link id="ducksTab" className="showlink showlinkActive float-start" to="/">
                             Find Ducks
@@ -106,6 +108,9 @@ function App() {
                     </Routes>
                 </div>
             </div>
+            <footer>
+                <img src={textlogo} className="App-logo" alt="logo" />
+            </footer>
         </Router>
     );
 }

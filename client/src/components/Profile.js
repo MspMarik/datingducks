@@ -98,8 +98,8 @@ const Profile = () => {
     } else {
         return (
             <div className="container align-self-center mb-5 card-container">
-                <p>Here you can update your information of you want.</p>
-                <Card className="card-shadow">
+                <p className="update-prof">Update Profile</p>
+                <Card className="card-shadow" id="profile-card">
                     <Card.Header>
                         <h2>Profile</h2>
                     </Card.Header>
@@ -153,7 +153,7 @@ const Profile = () => {
                             <Form.Control type="file" name="profileNewPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required />
                             {/* <Form.File type="file" onChange={(e) => console.log(e.target.files[0])} label="Profile Picture" accept=".png,.jpg,.jpeg,.webp" /> */}
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" className="save-button">
                             Save
                         </Button>
                     </Form>

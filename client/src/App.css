@@ -3,8 +3,17 @@
 }
 
 .App-logo {
-    height: 10vmin;
+    height: 40px;
     pointer-events: none;
+    display: inline-block;
+    margin: -10px;
+}
+
+.App-title {
+    font-family: "Fredoka One", cursive;
+    font-size: 64px;
+    padding: 0px;
+    margin: -5px;
 }
 
 /* @media (prefers-reduced-motion: no-preference) {
@@ -14,20 +23,22 @@
 } */
 
 .App-header {
-    background-color: #dd1dbd;
+    background-color: #f7003a;
     height: fit-content;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
+    font-size: x-large;
     color: white;
+    font-family: "Epilogue", sans-serif;
+    font-weight: bold;
 }
 
-.App-link {
+/* .App-link {
     color: #2bffd1;
-}
+} */
 
 /* @keyframes App-logo-spin {
     from {
@@ -43,10 +54,11 @@
 }
 
 .showlink {
-    padding: 0.4rem 0.8rem;
-    background-color: rgb(179, 179, 179);
+    padding: 0 0.8rem;
+    padding-top: 0.2rem;
+    background-color: #f7003a; /*tab color*/
     border-radius: 10px 10px 0 0;
-    color: #2bffd1;
+    color: white; /*font color*/
     text-decoration: none !important;
     margin-left: 5px;
     margin-right: 5px;
@@ -58,12 +70,12 @@
 
 .showlink:hover {
     background-color: white;
-    color: pink;
+    color: #ee2453;
 }
 
 .showlinkActive {
-    background-color: white;
-    color: pink;
+    background-color: #ffffff;
+    color: #ef0000;
 }
 
 .signuponloginpagelink {
@@ -103,8 +115,74 @@
 }
 
 .card-shadow {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.4);
     transition: 0.3s;
     width: 100%;
     border-radius: 5px;
+    box-shadow: #f7003ac7 5px 5px, #ee245386 10px 10px, #ee245360 15px 15px, #f57d997c 20px 20px, #fee6ec 25px 25px;
+    /* background: red !important; */
+    outline: solid rgba(0, 0, 0, 0.527);
+}
+
+#name {
+    font-family: "Fredoka One", cursive;
+    font-size: xx-large;
+}
+
+#age,
+#gender,
+#bio,
+#ld-likes,
+.float-center,
+#profile-card,
+.card-shadow {
+    font-family: "Montserrat", sans-serif;
+    font-size: medium;
+}
+
+.fw-bold,
+.update-prof {
+    font-family: "Montserrat", sans-serif;
+    font-weight: bold;
+}
+
+.d-flexjustify-content-between {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    align-content: stretch;
+    margin-bottom: -15px;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-color: transparent;
+    align-content: center !important;
+    margin-top: 5px;
+    font-family: "Fredoka One", cursive;
+}
+
+.save-button {
+    background-color: #ec004a !important;
+    border-color: transparent !important;
+    font-weight: 600 !important;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.mb-4 {
+    text-decoration: none;
+    color: #ec004a;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+.mb-4:hover {
+    color: rgba(0, 0, 0, 0.733);
+}
+
+.update-prof {
+    margin-top: -30px;
 }

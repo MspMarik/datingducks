@@ -68,24 +68,25 @@ const Home = () => {
                         <ListGroup variant="flush" className="float-center">
                             <ListGroup.Item>
                                 <Card.Text>
-                                    <div className="d-flex justify-content-between">
+                                    <div className="d-flexjustify-content-between">
                                         <Card.Text id="age">Age</Card.Text>
                                         <Card.Text id="gender">Gender</Card.Text>
                                     </div>
                                 </Card.Text>
                                 <Card.Text id="bio">Bio</Card.Text>
                             </ListGroup.Item>
-                            <ListGroup.Item>
+                            <ListGroup.Item id="ld-likes">
                                 <Card.Text className="fw-bold">Likes</Card.Text>
                                 {populateLikes()}
                             </ListGroup.Item>
-                            <ListGroup.Item>
+                            <ListGroup.Item id="ld-likes">
                                 <Card.Text className="fw-bold">Dislikes</Card.Text>
                                 {populateDislikes()}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>
                 </Card>
+
                 <OverlayTrigger placement="top" overlay={likeTooltip} delay={{ show: 250, hide: 400 }}>
                     <Button className="m-4" variant="success">
                         <FontAwesomeIcon icon={faHeart} />

@@ -42,7 +42,6 @@ const Chat = () => {
                         <h2>Chat</h2>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title id="name">Chat</Card.Title>
                         <ListGroup variant="flush" className="float-center">
                             <ListGroup.Item>
                                 <Card.Text>Jan plz do chat ty</Card.Text>
