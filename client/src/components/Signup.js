@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import {Navigate} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
@@ -11,8 +12,11 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
+import {doCreateUserWithEmailAndPassword} from '../firebase/FirebaseFunctions';
+import {AuthContext} from '../firebase/Auth';
 
 const Signup = () => {
+    const {currentUser} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
 
@@ -29,8 +33,32 @@ const Signup = () => {
         }
 
         setValidated(true);
-    };
 
+    };
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+           
+            e.stopPropagation();
+        }
+
+        const {signupName, signupEmail, signupPassword} = e.target.elements;
+    
+        try {
+          await doCreateUserWithEmailAndPassword(
+            signupEmail.value,
+            signupPassword.value,
+            signupName
+          );
+
+        } catch (error) {
+          alert(error);
+        }
+      };
+      if (currentUser) {
+        return <Navigate to='/' />;
+      }
     function mGender() {
         document.getElementById("mGender").setAttribute("required", "");
         document.getElementById("oGender").removeAttribute("required");

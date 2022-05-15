@@ -8,6 +8,8 @@ import Matches from "./components/Matches";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import Chat from "./components/Chat";
+import {AuthProvider} from './firebase/Auth';
+import PrivateRoute from './components/PrivateRoute';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 function App() {
@@ -66,6 +68,7 @@ function App() {
     // }
 
     return (
+        <AuthProvider>
         <Router>
             <div className="App">
                 <header className="App-header">
@@ -96,17 +99,18 @@ function App() {
                 <br />
                 <div className="App-body">
                     <Routes>
-                        <Route exact path="/" element={<Home />} />
+                        <Route exact path="/" element={<PrivateRoute />} />
                         <Route exact path="/login" element={<Login />} />
                         <Route exact path="/signup" element={<Signup />} />
                         <Route exact path="/logout" element={<Logout />} />
-                        <Route exact path="/matches" element={<Matches />} />
-                        <Route exact path="/profile" element={<Profile />} />
-                        <Route exact path="/chat" element={<Chat />} />
+                        <Route exact path="/matches" element={<PrivateRoute />} />
+                        <Route exact path="/profile" element={<PrivateRoute />} />
+                        <Route exact path="/chat" element={<PrivateRoute />} />
                     </Routes>
                 </div>
             </div>
         </Router>
+        </AuthProvider>
     );
 }
 
