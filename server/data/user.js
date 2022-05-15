@@ -1,9 +1,9 @@
-const ObjectId = require("mongodb").ObjectId; // from geeksforgeeks
-const { users } = require("../config/mongoCollections");
+const ObjectId = require("mongodb").ObjectId; // from geksforgeeks
+
 const mongoCollections = require("../config/mongoCollections");
-const users = mongoCollections.users;
+const users2 = mongoCollections.users;
 const bcrypt = require("bcrypt");
-const saltRounds = 16;
+const saltRounds = 4;
 
 async function create(name, age, gender, email, pic, uname, pword, bio, likes, dlikes, status, prefs) {
     if (!name) throw "name must be provided";
@@ -12,7 +12,7 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
 
     if (!age) throw "age not provided";
     if (typeof age != "number") throw "age is not an int";
-    if (age <= 18) throw "for legal reasons";
+    if (age < 18) throw "for legal reasons";
     if (age > 125) throw "be realistic";
 
     // TODO gender idk if i'm doing this? it would be better off as a button or something
@@ -60,7 +60,7 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     if (!prefs) throw "preferences not provided";
     if (typeof prefs != "string") throw "preferences must be a string";
 
-    const userColl = await users();
+    const userColl = await users2();
     const ifExist = await userColl.findOne({ name: name, email: email, username: uname });
     if (ifExist != null) throw "user already exists";
     let { ObjectId } = require("mongodb");
@@ -86,13 +86,14 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     const insertInfo = await userColl.insertOne(userObj);
     if (insertInfo.insertedCount === 0) throw "could not add user";
     const newId = insertInfo.insertedId;
-    const user = await this.get(String(newId));
+    const user = await getID(String(newId));
     return user;
     //returns user or user id i don't remember lol
 }
 
 async function getAll() {
     if (arguments.length != 0) throw "no argument needed";
+    let uCollection = await users2();
     const uList = await uCollection.find({}).toArray();
     return uList;
 }
@@ -102,7 +103,7 @@ async function getID(id) {
     if (typeof id != "string") throw "id is not a string";
     // check if its a valid ObjectId
     if (!ObjectId.isValid(id)) throw "object id is not valid";
-    const uColl = await users();
+    const uColl = await users2();
     const users = await uColl.findOne({ _id: id });
     if (users === null) throw "no user with that id";
     return users;
@@ -115,23 +116,24 @@ async function checkMatch(uid, mid) {
     if (typeof mid != "string") throw "match id is not a string";
     if (!ObjectId.isValid(uid)) throw "user id is not valid";
     if (!ObjectId.isValid(mid)) throw "match id is not valid";
-    let user1 = await this.getID(uid);
-    let user2 = await this.getID(mid);
+    let user1 = await getID(uid);
+    let user2 = await getID(mid);
     let match = false;
+    const userColl = await users2();
     // need to check to see if they are in each others likes
-    if (user1.iducks.indexOf(mid) && user2.iducks.indexOf(uid)) {
+    if (user1.iducks.indexOf(mid) == 0 && user2.iducks.indexOf(uid) == 0) {
         // need to check if they are matched first
-        if (!user1.matches.indexOf(mid) && !user2.matches.indexOf(uid)) {
+        if (user1.matches.indexOf(mid) == -1 && user2.matches.indexOf(uid) == -1) {
             match = true;
 
             let user1Matches = user1.matches.push(mid);
             let user2Matches = user2.matches.push(uid);
 
-            const updatedInfo1 = await userColl.updateOne({ _id: id }, { $set: { matches: user1Matches } });
+            const updatedInfo1 = await userColl.updateOne({ _id: uid }, { $set: { matches: user1Matches } });
             if (updatedInfo1.modifiedCount === 0) {
                 throw "could not update matches successfully for user 1";
             }
-            const updatedInfo2 = await userColl.updateOne({ _id: id }, { $set: { matches: user2Matches } });
+            const updatedInfo2 = await userColl.updateOne({ _id: mid }, { $set: { matches: user2Matches } });
             if (updatedInfo2.modifiedCount === 0) {
                 throw "could not update matches successfully for user 2";
             }
@@ -153,13 +155,13 @@ async function addLike(uid, mid) {
     if (typeof mid != "string") throw "match id is not a string";
     if (!ObjectId.isValid(uid)) throw "user id is not valid";
     if (!ObjectId.isValid(mid)) throw "match id is not valid";
-    let user = await this.getID(uid);
-
-    let iducksArr = user.iducks.push(mid);
+    let user = await getID(uid);
     //TODO check they are not there already
     if (user.iducks.indexOf(mid) != -1) throw "user is already liked";
+    user.iducks.push(mid);
+    let iducksArr = user.iducks;
 
-    const userColl = await users();
+    const userColl = await users2();
     const updatedInfo = await userColl.updateOne({ _id: uid }, { $set: { iducks: iducksArr } });
     if (updatedInfo.modifiedCount === 0) throw "could not add like successfully";
     // TODO need to check to see if there is a match
@@ -171,7 +173,7 @@ async function remMatch(uid, mid) {
     if (typeof uid != "string") throw "user id is not a string";
     if (!mid) throw "no id provided";
     if (typeof mid != "string") throw "match id is not a string";
-    const userColl = await users();
+    const userColl = await user();
     // TODO check if they are a match
     if (!user1.matches.indexOf(mid) && !user2.matches.indexOf(uid)) {
         let user1 = getID(uid);
@@ -246,7 +248,7 @@ async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, 
     if (!prefs) throw "preferences not provided";
     if (typeof prefs != "string") throw "preferences must be a string";
 
-    const userColl = await users();
+    const userColl = await user();
     const updatedInfo = await userColl.updateOne(
         { _id: id },
         {
@@ -276,28 +278,6 @@ async function getNext(id) {
     // TODO get user collection, filter by preferences as an array
     // TODO check array length, get random number =< length
     // TODO return profile
-    const user = getID(id);
-    const userList = getAll();
-    let resArr = [];
-    // if the user has no preference, everyone could be a potential profile
-    if (user.prefs.includes("any") == false) {
-        userList.forEach((u) => {
-            if (user.prefs.includes(userList.gender)) {
-                // check to see if the user prefers the current user
-                resArr.push(u);
-            }
-        });
-    } else {
-        resArr = userList;
-    }
-    for (let i = 0; i < resArr.length; i++) {
-        if (u.prefs.includes(user.gender)) {
-            resArr.splice(i, 1);
-        }
-    }
-    let num = Math.floor(Math.random() * (resArr.length + 1));
-    let show = getID(resArr[num]);
-    return show;
 }
 
 module.exports = {
