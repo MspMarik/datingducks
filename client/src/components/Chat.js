@@ -32,6 +32,9 @@ const Chat = () => {
         return (
             <div className="container align-self-center card-container">
                 <Card className="card-shadow">
+                    <Card.Header>
+                        <h2>Chat</h2>
+                    </Card.Header>
                     <Card.Body>
                         <Card.Title id="name">Chat</Card.Title>
                         <ListGroup variant="flush" className="float-center">
