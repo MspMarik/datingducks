@@ -38,6 +38,10 @@
     }
 }
 
+.card-container {
+    max-width: 600px !important;
+}
+
 .showlink {
     padding: 0.4rem 0.8rem;
     background-color: rgb(179, 179, 179);
