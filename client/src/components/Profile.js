@@ -19,6 +19,12 @@ const Profile = () => {
     useEffect(() => {
         setLoading(true);
         setLoading(false);
+        document.getElementById("profileTab").classList.add("showlinkActive");
+        document.getElementById("ducksTab").classList.remove("showlinkActive");
+        document.getElementById("matchesTab").classList.remove("showlinkActive");
+        document.getElementById("loginTab").classList.remove("showlinkActive");
+        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
         //todo populate fields w/ current user info data from db
     }, []);
 

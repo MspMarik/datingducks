@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import logo from "./spinning-duck.gif";
 import "./App.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
@@ -11,59 +11,59 @@ import Chat from "./components/Chat";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 function App() {
-    function dTab() {
-        document.getElementById("ducksTab").classList.add("showlinkActive");
-        document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
-        document.getElementById("chatTab").classList.remove("showlinkActive");
-    }
+    // function dTab() {
+    //     document.getElementById("ducksTab").classList.add("showlinkActive");
+    //     document.getElementById("matchesTab").classList.remove("showlinkActive");
+    //     document.getElementById("profileTab").classList.remove("showlinkActive");
+    //     document.getElementById("loginTab").classList.remove("showlinkActive");
+    //     document.getElementById("logoutTab").classList.remove("showlinkActive");
+    //     document.getElementById("chatTab").classList.remove("showlinkActive");
+    // }
 
-    function mTab() {
-        document.getElementById("matchesTab").classList.add("showlinkActive");
-        document.getElementById("ducksTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
-        document.getElementById("chatTab").classList.remove("showlinkActive");
-    }
+    // function mTab() {
+    //     document.getElementById("matchesTab").classList.add("showlinkActive");
+    //     document.getElementById("ducksTab").classList.remove("showlinkActive");
+    //     document.getElementById("profileTab").classList.remove("showlinkActive");
+    //     document.getElementById("loginTab").classList.remove("showlinkActive");
+    //     document.getElementById("logoutTab").classList.remove("showlinkActive");
+    //     document.getElementById("chatTab").classList.remove("showlinkActive");
+    // }
 
-    function pTab() {
-        document.getElementById("profileTab").classList.add("showlinkActive");
-        document.getElementById("ducksTab").classList.remove("showlinkActive");
-        document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
-        document.getElementById("chatTab").classList.remove("showlinkActive");
-    }
+    // function pTab() {
+    //     document.getElementById("profileTab").classList.add("showlinkActive");
+    //     document.getElementById("ducksTab").classList.remove("showlinkActive");
+    //     document.getElementById("matchesTab").classList.remove("showlinkActive");
+    //     document.getElementById("loginTab").classList.remove("showlinkActive");
+    //     document.getElementById("logoutTab").classList.remove("showlinkActive");
+    //     document.getElementById("chatTab").classList.remove("showlinkActive");
+    // }
 
-    function cTab() {
-        document.getElementById("chatTab").classList.add("showlinkActive");
-        document.getElementById("ducksTab").classList.remove("showlinkActive");
-        document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
-    }
+    // function cTab() {
+    //     document.getElementById("chatTab").classList.add("showlinkActive");
+    //     document.getElementById("ducksTab").classList.remove("showlinkActive");
+    //     document.getElementById("matchesTab").classList.remove("showlinkActive");
+    //     document.getElementById("loginTab").classList.remove("showlinkActive");
+    //     document.getElementById("logoutTab").classList.remove("showlinkActive");
+    //     document.getElementById("profileTab").classList.remove("showlinkActive");
+    // }
 
-    function linTab() {
-        document.getElementById("loginTab").classList.add("showlinkActive");
-        document.getElementById("ducksTab").classList.remove("showlinkActive");
-        document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
-        document.getElementById("chatTab").classList.remove("showlinkActive");
-    }
+    // function linTab() {
+    //     document.getElementById("loginTab").classList.add("showlinkActive");
+    //     document.getElementById("ducksTab").classList.remove("showlinkActive");
+    //     document.getElementById("matchesTab").classList.remove("showlinkActive");
+    //     document.getElementById("profileTab").classList.remove("showlinkActive");
+    //     document.getElementById("logoutTab").classList.remove("showlinkActive");
+    //     document.getElementById("chatTab").classList.remove("showlinkActive");
+    // }
 
-    function loutTab() {
-        document.getElementById("logoutTab").classList.add("showlinkActive");
-        document.getElementById("ducksTab").classList.remove("showlinkActive");
-        document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("chatTab").classList.remove("showlinkActive");
-    }
+    // function loutTab() {
+    //     document.getElementById("logoutTab").classList.add("showlinkActive");
+    //     document.getElementById("ducksTab").classList.remove("showlinkActive");
+    //     document.getElementById("matchesTab").classList.remove("showlinkActive");
+    //     document.getElementById("profileTab").classList.remove("showlinkActive");
+    //     document.getElementById("loginTab").classList.remove("showlinkActive");
+    //     document.getElementById("chatTab").classList.remove("showlinkActive");
+    // }
 
     return (
         <Router>
@@ -72,22 +72,22 @@ function App() {
                     <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Dating Ducks</h1>
                     <div className="w-100">
-                        <Link id="ducksTab" className="showlink showlinkActive float-start" onClick={dTab} to="/">
+                        <Link id="ducksTab" className="showlink showlinkActive float-start" to="/">
                             Find Ducks
                         </Link>
-                        <Link id="matchesTab" className="showlink float-start" onClick={mTab} to="/matches">
+                        <Link id="matchesTab" className="showlink float-start" to="/matches">
                             Matches
                         </Link>
-                        <Link id="profileTab" className="showlink float-start" onClick={pTab} to="/profile">
+                        <Link id="profileTab" className="showlink float-start" to="/profile">
                             Profile
                         </Link>
-                        <Link id="chatTab" className="showlink float-start" onClick={cTab} to="/chat">
+                        <Link id="chatTab" className="showlink float-start" to="/chat">
                             Chat
                         </Link>
-                        <Link id="loginTab" className="showlink float-end" onClick={linTab} to="/login">
+                        <Link id="loginTab" className="showlink float-end" to="/login">
                             Login
                         </Link>
-                        <Link id="logoutTab" className="showlink float-end" onClick={loutTab} to="/logout" hidden>
+                        <Link id="logoutTab" className="showlink float-end" to="/logout" hidden>
                             Logout
                         </Link>
                     </div>

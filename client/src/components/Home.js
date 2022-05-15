@@ -44,6 +44,12 @@ const Home = () => {
     useEffect(() => {
         setLoading(true);
         setLoading(false);
+        document.getElementById("ducksTab").classList.add("showlinkActive");
+        document.getElementById("matchesTab").classList.remove("showlinkActive");
+        document.getElementById("profileTab").classList.remove("showlinkActive");
+        document.getElementById("loginTab").classList.remove("showlinkActive");
+        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
     }, []);
 
     if (loading) {

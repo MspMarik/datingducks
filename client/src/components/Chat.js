@@ -20,6 +20,12 @@ const Chat = () => {
     useEffect(() => {
         setLoading(true);
         setLoading(false);
+        document.getElementById("chatTab").classList.add("showlinkActive");
+        document.getElementById("ducksTab").classList.remove("showlinkActive");
+        document.getElementById("matchesTab").classList.remove("showlinkActive");
+        document.getElementById("loginTab").classList.remove("showlinkActive");
+        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("profileTab").classList.remove("showlinkActive");
     }, []);
 
     if (loading) {
