@@ -19,6 +19,12 @@ const Login = () => {
     useEffect(() => {
         setLoading(true);
         setLoading(false);
+        document.getElementById("loginTab").classList.add("showlinkActive");
+        document.getElementById("ducksTab").classList.remove("showlinkActive");
+        document.getElementById("matchesTab").classList.remove("showlinkActive");
+        document.getElementById("profileTab").classList.remove("showlinkActive");
+        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        document.getElementById("chatTab").classList.remove("showlinkActive");
     }, []);
 
     const handleSubmit = (event) => {
