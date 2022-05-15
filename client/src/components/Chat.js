@@ -12,10 +12,14 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
+import io from "socket.io-client";
 import "../App.css";
 
 const Chat = () => {
     const [loading, setLoading] = useState(true);
+    const [username, setUsername] = useState("");
+
+    const socketRef = useRef();
 
     useEffect(() => {
         setLoading(true);
@@ -26,6 +30,16 @@ const Chat = () => {
         document.getElementById("loginTab").classList.remove("showlinkActive");
         document.getElementById("logoutTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");
+    }, []);
+
+    useEffect(() => {
+        socketRef.current = io("/");
+        //check it works/connects properly
+        console.log("socket", socketRef.current);
+        socketRef.current.emit("hello", "world!");
+        return () => {
+            socketRef.current.disconnect();
+        };
     }, []);
 
     if (loading) {
