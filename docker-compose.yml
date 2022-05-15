@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    image: myapp-server
+    container_name: myapp-node-server
+    volumes:
+      - ./server/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3001:3001"
+  mongo:
+    image: mongo
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - "27017:27017"
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    image: myapp-client
+    container_name: myapp-react-client
+    command: npm start
+    volumes:
+      - ./client/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    stdin_open: true
+
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
