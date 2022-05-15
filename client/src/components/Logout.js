@@ -11,8 +11,9 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
+import {doSignOut} from '../firebase/FirebaseFunctions';
 
-const Signout = () => {
+const Logout = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
 
@@ -23,19 +24,10 @@ const Signout = () => {
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
         document.getElementById("chatTab").classList.remove("showlinkActive");
+        doSignOut();
+        // document.getElementById("loginTab").classList.add("showlinkActive");
     }, []);
-
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        setValidated(true);
-    };
 
     if (loading) {
         return (
@@ -46,31 +38,19 @@ const Signout = () => {
     } else {
         return (
             <div className="container align-self-center card-container">
-                <Link className="signuponloginpagelink mb-4" to="/signup">
-                    Don't have an account? Click here to sign up!
-                </Link>
                 <Card className="card-shadow">
                     <Card.Header>
-                        <h2>Login</h2>
+                        <h2>You have been logged out!</h2>
                     </Card.Header>
-                    <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3" controlId="loginUser">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" placeholder="Username" required />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3" controlId="loginPass">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" required />
-                        </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Submit
-                        </Button>
-                    </Form>
+                    <Card.Body>
+                        <Link className="signuponloginpagelink mb-4" to="/login">
+                            Click here to log back in.
+                        </Link>
+                    </Card.Body>
                 </Card>
             </div>
         );
     }
 };
 
-export default Signout;
+export default Logout;

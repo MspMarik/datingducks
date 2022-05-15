@@ -14,6 +14,7 @@ import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
 import {doCreateUserWithEmailAndPassword} from '../firebase/FirebaseFunctions';
 import {AuthContext} from '../firebase/Auth';
+import axios from "axios";
 
 const Signup = () => {
     const {currentUser} = useContext(AuthContext);
@@ -25,27 +26,121 @@ const Signup = () => {
         setLoading(false);
     }, []);
 
-    const handleSubmit = (event) => {
+    async function handleSubmit (event) {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            event.preventDefault();
+            event.stopPropagation();
+            setValidated(true);
+            let pathtopic = "";
+            let formData = new FormData();
+            let file = form.elements.signupPic.files[0]
+            let d = new Date();
+            let filename = d.getMonth().toString() + "-" + d.getDay().toString() + "-" + d.getFullYear().toString() + "_" + file.name;
+            let gender = form.elements.signupGender.value;
+            if (gender =="Goose (Other)") {
+                gender = form.elements.signupOtherGenderText.value
+            }
+            let mPref = form.elements.signupPref[0];
+            let fPref = form.elements.signupPref[1];
+            let oPref = form.elements.signupPref[2];
+            let aPref = form.elements.signupPref[3];
+            let pref = [];
+            if (aPref.checked) {
+                pref.push(aPref.value);
+            } else {
+                if (mPref.checked) {
+                    pref.push(mPref.value);
+                }
+                if (fPref.checked) {
+                    pref.push(fPref.value);
+                }
+                if (oPref.checked) {
+                    pref.push(oPref.value);
+                }
+            }
+            // let data = {
+            //     signupName: form.elements.signupName.value,
+            //         signupAge: form.elements.signupAge.value,
+            //         signupGender: gender,
+            //         signupEmail: form.elements.signupEmail.value,
+            //         pic: pathtopic,
+            //         signupUser: form.elements.signupUser.value,
+            //         signupPass: form.elements.signupPass.value,
+            //         signupBio: form.elements.signupBio.value,
+            //         signupLikes: form.elements.signupLikes.value,
+            //         signupDislikes: form.elements.signupDislikes.value,
+            //         signupStatus: form.elements.signupStatus.value,
+            //         signupPref: pref,
+            // }
+            formData.append("pic", file);
+            formData.append("picname", filename);
+            formData.append("signupName",form.elements.signupName.value);
+            formData.append("signupAge",form.elements.signupAge.value);
+            formData.append("signupGender",gender);
+            formData.append("signupEmail",form.elements.signupEmail.value);
+            formData.append("signupUser",form.elements.signupUser.value);
+            formData.append("signupPass",form.elements.signupPass.value);
+            formData.append("signupBio",form.elements.signupBio.value);
+            formData.append("signupLikes",form.elements.signupLikes.value);
+            formData.append("signupDislikes",form.elements.signupDislikes.value);
+            formData.append("signupStatus",form.elements.signupStatus.value);
+            formData.append("signupPref",pref);
+            console.log(formData)
+            let data = await axios.post('http://localhost:3001/date/', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+            }).catch(function (error) {
+                console.log(error.toJSON());
+              });
+            console.log(data);
+        
+            try {
+    
+              await doCreateUserWithEmailAndPassword(
+                form.elements.signupEmail.value,
+                form.elements.signupPass.value,
+                form.elements.signupName.value
+              );
+    
+            } catch (error) {
+              alert(error);
+            }
         }
-
-        setValidated(true);
-
     };
     const handleSignUp = async (e) => {
         e.preventDefault();
         const form = e.currentTarget;
         if (form.checkValidity() === false) {
-           
             e.stopPropagation();
         }
+        //upload.single('signupPic');
+        
+        // let {data} = axios.post("http://localhost:3001/date/", 
+        //     {
+                // signupName:,
+                // signupAge:,
+                // signupGender:,
+                // signupEmail:,
+                // pic:,
+                // signupUser:,
+                // signupPass:,
+                // signupBio:,
+                // signupLikes:,
+                // signupDisikes:,
+                // signupStatus:,
+                // signupPref:,
 
+        //     }
+        //     );
         const {signupName, signupEmail, signupPassword} = e.target.elements;
     
         try {
+
           await doCreateUserWithEmailAndPassword(
             signupEmail.value,
             signupPassword.value,
@@ -109,7 +204,9 @@ const Signup = () => {
             document.getElementById("aPref").removeAttribute("required");
         }
     }
-
+    if (currentUser) {
+        return <Navigate to='/' />;
+      }
     if (loading) {
         return (
             <div>

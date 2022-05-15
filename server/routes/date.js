@@ -3,7 +3,6 @@ const router = express.Router();
 const data = require('../data/user');
 const app = express();
 const axios = require('axios');
-
 const path = require('path');
 const multer = require('multer');
 ///Check ids
@@ -20,7 +19,9 @@ const storage = multer.diskStorage({
 
   filename: function(req, file, cb) {
     console.log(file);
-    cb(null, new Date().toISOString() + file.originalname);
+    let d = new Date();
+    let filename = d.getMonth().toString() + "-" + d.getDay().toString() + "-" + d.getFullYear().toString() + "_" + file.originalname;
+    cb(null, filename);
   }
 });
 
@@ -71,16 +72,17 @@ router.post('/like',async (req, res) => {
 
 })
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-router.post('/', upload.single('signupPic'), async (req, res) =>
+router.post('/', upload.array('pic'), async (req, res) =>
 {
 
   let body = req.body;
+
   console.log(req.file);
   if(!body)
   {
     return res.status(400).json({ error:"Error: There is no data"});
   }
-  if(!body.signupName||!body.signupAge||!body.signupGender||!body.signupEmail||!body.signupUser||!body.signupPass||!body.signupBio||!body.signupLikes||!body.signupDislikes||!body.signupStatus||!body.signupPref)
+  if(!body.signupName||!body.signupAge||!body.signupGender||!body.signupEmail||!body.signupUser||!body.signupPass||!body.signupBio||!body.signupLikes||!body.signupDislikes||!body.signupStatus||!body.signupPref||!body.picname)
   {
     return res.status(400).json({ error:"Error: There is no data"});
   }
@@ -97,14 +99,7 @@ router.post('/', upload.single('signupPic'), async (req, res) =>
     gender = body.signupGender;
   }
   let email = body.signupEmail;
-  let pic;
-  try{
-    pic =req.files.filename
-  }
-  catch(e)
-  {
-    pic = "unknown.jpeg"
-  }
+  let pic = body.picname;
   let username = body.signupUser;
   let password = body.signupPass;
   let bio = body.signupBio;
@@ -115,7 +110,8 @@ router.post('/', upload.single('signupPic'), async (req, res) =>
 
 
 
-
+  pref = pref.split(",");
+  
   if(typeof name !="string"||typeof pref !="string"||typeof gender !="string"||typeof email!="string" || typeof pic !="string" ||typeof username != "string"||typeof password !="string" ||typeof bio !="string"|| typeof status!= "string"|| typeof age!="number", typeof likes !="string",typeof dislikes!= "string")
   {
     return res.status(400).json({ error:"Error: Wring type of info"});

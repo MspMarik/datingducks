@@ -58,7 +58,7 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     if (typeof gender != "string") throw "gender is not a string";
 
     if (!prefs) throw "preferences not provided";
-    if (typeof prefs != "string") throw "preferences must be a string";
+    if (!Array.isArray(prefs)) throw "preferences must be an array";
 
     const userColl = await users2();
     const ifExist = await userColl.findOne({ name: name, email: email, username: uname });
@@ -169,7 +169,6 @@ async function addLike(uid, mid) {
     return await checkMatch(uid, mid);
 }
 
-
 async function remMatch(uid, mid) {
     if (!uid) throw "no id provided";
     if (typeof uid != "string") throw "user id is not a string";
@@ -177,17 +176,14 @@ async function remMatch(uid, mid) {
     if (typeof mid != "string") throw "match id is not a string";
     const userColl = await users2();
     // TODO check if they are a match
-    let user1,user2;
-    try{
-     user1 = await getID(uid);
-     user2 = await getID(mid);
-    }
-    catch(e)
-    {
+    let user1, user2;
+    try {
+        user1 = await getID(uid);
+        user2 = await getID(mid);
+    } catch (e) {
         throw e;
     }
-    if (user1.matches.indexOf(mid)!=-1 && user2.matches.indexOf(uid)!=-1) {
-
+    if (user1.matches.indexOf(mid) != -1 && user2.matches.indexOf(uid) != -1) {
         let user1Matches = user1.matches.filter((user) => user != user2._id);
         let user2Matches = user2.matches.filter((user) => user != user1._id);
         let user1Ducks = user1.iducks.filter((user) => user != user2._id);
@@ -295,9 +291,36 @@ async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, 
 }
 
 async function getNext(id) {
+    const user = await getID(id);
+    const userList =  await getAll();
+    let resArr = [];
+
+    // if the user has no preference, everyone could be a potential profile
     // TODO get user collection, filter by preferences as an array
+    if (user.preferences.includes("Any") == false) {
+        userList.forEach((u) => {
+            if (user.preferences.includes(u.gender)) {
+                // check to see if the user prefers the current user
+                resArr.push(u);
+            }
+        });
+    } else {
+        resArr = userList;
+    }
+    for (let i = 0; i < resArr.length; i++) {
+        if (resArr[i].preferences.includes(user.gender) == false) {
+            // if the user1 is not a pref of the user in the array, remove from the arr
+            resArr.splice(i, 1);
+            i--;
+        }
+    }
+
     // TODO check array length, get random number =< length
-    // TODO return profile
+    let num = Math.floor(Math.random() * (resArr.length + 1));
+    let show = await getID(resArr[num]._id);
+
+    return show;
+    // TODO return profile ^
 }
 
 module.exports = {
