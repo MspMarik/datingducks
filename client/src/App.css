@@ -133,12 +133,14 @@
 #bio,
 #ld-likes,
 .float-center,
-#profile-card {
+#profile-card,
+.card-shadow {
     font-family: "Montserrat", sans-serif;
     font-size: medium;
 }
 
-.fw-bold {
+.fw-bold,
+.update-prof {
     font-family: "Montserrat", sans-serif;
     font-weight: bold;
 }
@@ -164,4 +166,23 @@
     background-color: #ec004a !important;
     border-color: transparent !important;
     font-weight: 600 !important;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.mb-4 {
+    text-decoration: none;
+    color: #ec004a;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+}
+
+.mb-4:hover {
+    color: rgba(0, 0, 0, 0.733);
+}
+
+.update-prof {
+    margin-top: -30px;
 }

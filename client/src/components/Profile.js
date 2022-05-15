@@ -98,7 +98,7 @@ const Profile = () => {
     } else {
         return (
             <div className="container align-self-center mb-5 card-container">
-                <p>Here you can update your information of you want.</p>
+                <p className="update-prof">Update Profile</p>
                 <Card className="card-shadow" id="profile-card">
                     <Card.Header>
                         <h2>Profile</h2>
