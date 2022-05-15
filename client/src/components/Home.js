@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
+import {Navigate} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
@@ -13,9 +14,12 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
+import {AuthContext} from '../firebase/Auth';
 
 const Home = () => {
     const [loading, setLoading] = useState(true);
+    const {currentUser} = useContext(AuthContext);
+    let navigate = useNavigate();
 
     const likeTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
@@ -44,11 +48,17 @@ const Home = () => {
     useEffect(() => {
         setLoading(true);
         setLoading(false);
+        if(!currentUser){
+            navigate("/login");
+        }
         document.getElementById("ducksTab").classList.add("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        if (currentUser) {
+            document.getElementById("logoutTab").classList.remove("showlinkActive");
+        } else {
+            document.getElementById("loginTab").classList.remove("showlinkActive");
+        }
         document.getElementById("chatTab").classList.remove("showlinkActive");
     }, []);
 

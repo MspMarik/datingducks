@@ -20,7 +20,7 @@ const Logout = () => {
     useEffect(() => {
         setLoading(true);
         setLoading(false);
-        document.getElementById("logoutTab").classList.add("showlinkActive");
+        // document.getElementById("loginTab").classList.add("showlinkActive");
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");

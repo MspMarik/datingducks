@@ -13,21 +13,21 @@ const Navigation = () => {
 const NavigationAuth = () => {
   return (
     <div className="w-100">
-        <Link id="ducksTab" className="showlink showlinkActive float-start" to="/">
-            Find Ducks
-        </Link>
-        <Link id="matchesTab" className="showlink float-start" to="/matches">
-            Matches
-        </Link>
-        <Link id="profileTab" className="showlink float-start" to="/profile">
-            Profile
-        </Link>
-        <Link id="chatTab" className="showlink float-start" to="/chat">
-            Chat
-        </Link>
-        <Link id="logoutTab" className="showlink float-end" to="/logout">
-            Logout
-        </Link>
+    <Link id="ducksTab" className="showlink showlinkActive float-start" to="/">
+        Find Ducks
+    </Link>
+    <Link id="matchesTab" className="showlink float-start" to="/matches">
+        Matches
+    </Link>
+    <Link id="profileTab" className="showlink float-start" to="/profile">
+        Profile
+    </Link>
+    <Link id="chatTab" className="showlink float-start" to="/chat">
+        Chat
+    </Link>
+    <Link id="logoutTab" className="showlink float-end" to="/logout">
+        Logout
+    </Link>
     </div>
   );
 };
@@ -35,22 +35,22 @@ const NavigationAuth = () => {
 const NavigationNonAuth = () => {
   return (
     <div className="w-100">
-        <Link id="ducksTab" className="showlink showlinkActive float-start" to="/">
-            Find Ducks
-        </Link>
-        <Link id="matchesTab" className="showlink float-start" to="/matches">
-            Matches
-        </Link>
-        <Link id="profileTab" className="showlink float-start" to="/profile">
-            Profile
-        </Link>
-        <Link id="chatTab" className="showlink float-start" to="/chat">
-            Chat
-        </Link>
-        <Link id="loginTab" className="showlink float-end" to="/login">
-            Login
-        </Link>
-    </div>
+    <Link id="ducksTab" className="showlink showlinkActive float-start" to="/">
+        Find Ducks
+    </Link>
+    <Link id="matchesTab" className="showlink float-start" to="/matches">
+        Matches
+    </Link>
+    <Link id="profileTab" className="showlink float-start" to="/profile">
+        Profile
+    </Link>
+    <Link id="chatTab" className="showlink float-start" to="/chat">
+        Chat
+    </Link>
+    <Link id="loginTab" className="showlink float-end" to="/login">
+        Login
+    </Link>
+</div>
   );
 };
 

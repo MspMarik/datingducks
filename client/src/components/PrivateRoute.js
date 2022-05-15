@@ -5,9 +5,14 @@ import {AuthContext} from '../firebase/Auth';
 const PrivateRoute = () => {
   const {currentUser} = useContext(AuthContext);
 
-  // If authorized, return an outlet that will render child elements
-  // If not, return element that will navigate to login page
-  return currentUser ? <Outlet /> : <Navigate to='/login' />;
+  try {
+    if (currentUser) {
+      return <Outlet />
+    }
+    return <Navigate to='/login' />
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export default PrivateRoute;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -11,19 +11,30 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
+import {AuthContext} from '../firebase/Auth';
+
 
 const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
+    const {currentUser} = useContext(AuthContext);
+    let navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
-        setLoading(false);
+        setLoading(false)
+        if(!currentUser){
+            navigate("/login");
+        }
         document.getElementById("profileTab").classList.add("showlinkActive");
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        if (currentUser) {
+            document.getElementById("logoutTab").classList.remove("showlinkActive");
+        }
+        else{
+            document.getElementById("loginTab").classList.remove("showlinkActive");
+        }
         document.getElementById("chatTab").classList.remove("showlinkActive");
         //todo populate fields w/ current user info data from db
     }, []);

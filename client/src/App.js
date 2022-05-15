@@ -32,13 +32,13 @@ function App() {
                 <br />
                 <div className="App-body">
                     <Routes>
-                        <Route exact path="/" element={<PrivateRoute />} />
+                        <Route exact path="/" element={<Home />} />
                         <Route exact path="/login" element={<Login />} />
                         <Route exact path="/signup" element={<Signup />} />
                         <Route exact path="/logout" element={<Logout />} />
-                        <Route exact path="/matches" element={<PrivateRoute />} />
-                        <Route exact path="/profile" element={<PrivateRoute />} />
-                        <Route exact path="/chat" element={<PrivateRoute />} />
+                        <Route exact path="/matches" element={<Matches />} />
+                        <Route exact path="/profile" element={<Profile />} />
+                        <Route exact path="/chat" element={<Chat />} />
                     </Routes>
                 </div>
             </div>
