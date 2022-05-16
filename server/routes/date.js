@@ -96,7 +96,7 @@ router.post('/', upload.array('pic'), async (req, res) =>
   {
     return res.status(400).json({ error:"Error: There is no data"});
   }
-  if(!body.signupName||!body.signupAge||!body.signupGender||!body.signupEmail||!body.signupUser||!body.signupPass||!body.signupBio||!body.signupLikes||!body.signupDislikes||!body.signupStatus||!body.signupPref||!body.picname)
+  if(!body.signupName||!body.signupAge||!body.signupGender||!body.signupEmail||!body.signupUser||!body.signupPass||!body.signupBio||!body.signupLikes||!body.signupDislikes||!body.signupStatus||!body.signupPref||!body.pic)
   {
     return res.status(400).json({ error:"Error: There is no data"});
   }
@@ -113,7 +113,7 @@ router.post('/', upload.array('pic'), async (req, res) =>
     gender = body.signupGender;
   }
   let email = body.signupEmail;
-  let pic = body.picname;
+  let pic = body.pic;
   let username = body.signupUser;
   let password = body.signupPass;
   let bio = body.signupBio;

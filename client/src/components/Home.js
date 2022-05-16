@@ -12,11 +12,10 @@ import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
-import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
 import {AuthContext} from '../firebase/Auth';
 import axios from "axios";
-
+import pic from "../profile/1.jpeg"
 const Home = () => {
     const [loading, setLoading] = useState(true);
     const [content, setContent] = useState(undefined);
@@ -81,7 +80,6 @@ const Home = () => {
             return await getNextProfile().data;
         }
         let c = get();
-        // setContent(c);
         setLoading(false);
     }, []);
     
@@ -95,7 +93,7 @@ const Home = () => {
         return (
             <div className="container align-self-center card-container">
                 <Card className="card-shadow">
-                    <Card.Img variant="top" src={markFace} />
+                    <Card.Img variant="top" src={pic} />
                     <Card.Body>
                         <Card.Title id="name">{content && content.name}</Card.Title>
                         <ListGroup variant="flush" className="float-center">

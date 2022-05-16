@@ -15,6 +15,7 @@ import "../App.css";
 import {doCreateUserWithEmailAndPassword} from '../firebase/FirebaseFunctions';
 import {AuthContext} from '../firebase/Auth';
 import axios from "axios";
+import picone from "../profile/1.jpeg"
 
 const Signup = () => {
     const {currentUser} = useContext(AuthContext);
@@ -36,11 +37,11 @@ const Signup = () => {
             event.preventDefault();
             event.stopPropagation();
             setValidated(true);
-            let pathtopic = "";
+            // let pathtopic = "";
             let formData = new FormData();
-            let file = form.elements.signupPic.files[0]
-            let d = new Date();
-            let filename = d.getMonth().toString() + "-" + d.getDay().toString() + "-" + d.getFullYear().toString() + "_" + file.name;
+            // let file = form.elements.signupPic.files[0]
+            // let d = new Date();
+            // let filename = d.getMonth().toString() + "-" + d.getDay().toString() + "-" + d.getFullYear().toString() + "_" + file.name;
             let gender = form.elements.signupGender.value;
             if (gender =="Goose (Other)") {
                 gender = form.elements.signupOtherGenderText.value
@@ -77,8 +78,7 @@ const Signup = () => {
             //         signupStatus: form.elements.signupStatus.value,
             //         signupPref: pref,
             // }
-            formData.append("pic", file);
-            formData.append("picname", filename);
+            formData.append("pic", form.elements.signupPic.value);
             formData.append("signupName",form.elements.signupName.value);
             formData.append("signupAge",form.elements.signupAge.value);
             formData.append("signupGender",gender);
@@ -209,6 +209,7 @@ const Signup = () => {
             document.getElementById("aPref").removeAttribute("required");
         }
     }
+
     if (currentUser) {
         return <Navigate to='/' />;
       }
@@ -283,7 +284,8 @@ const Signup = () => {
                         </Form.Group>
                         <Form.Group controlId="signupPic" className="mb-3">
                             <Form.Label>Profile Picture</Form.Label>
-                            <Form.Control type="file" name="signupPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required />
+                            <Form.Check name="signupPic" id="pic1" type="radio" value="1" label="1" required /><img className="w60" src={picone} alt="profile picture" />
+                            {/* <Form.Control type="file" name="signupPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required /> */}
                             {/* <Form.File type="file" onChange={(e) => console.log(e.target.files[0])} label="Profile Picture" accept=".png,.jpg,.jpeg,.webp" /> */}
                         </Form.Group>
                         <Button variant="primary" type="submit">
