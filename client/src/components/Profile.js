@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -11,19 +11,30 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
+import {AuthContext} from '../firebase/Auth';
+
 
 const Profile = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
+    const {currentUser} = useContext(AuthContext);
+    let navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
-        setLoading(false);
-        document.getElementById("profileTab").classList.add("showlinkActive");
+        setLoading(false)
+        if(!currentUser){
+            navigate("/login");
+        }
+
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
+        if (currentUser) {
+            document.getElementById("logoutTab").classList.remove("showlinkActive");
+        }
+        else{
+            document.getElementById("loginTab").classList.remove("showlinkActive");
+        }
         document.getElementById("chatTab").classList.remove("showlinkActive");
         //todo populate fields w/ current user info data from db
     }, []);
@@ -97,9 +108,9 @@ const Profile = () => {
         );
     } else {
         return (
-            <div className="container align-self-center mb-5" style={{ width: "40rem" }}>
-                <p>Here you can update your information of you want.</p>
-                <Card className="card-shadow">
+            <div className="container align-self-center mb-5 card-container">
+                <p className="update-prof">Update Profile</p>
+                <Card className="card-shadow" id="profile-card">
                     <Card.Header>
                         <h2>Profile</h2>
                     </Card.Header>
@@ -153,7 +164,7 @@ const Profile = () => {
                             <Form.Control type="file" name="profileNewPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required />
                             {/* <Form.File type="file" onChange={(e) => console.log(e.target.files[0])} label="Profile Picture" accept=".png,.jpg,.jpeg,.webp" /> */}
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" className="save-button">
                             Save
                         </Button>
                     </Form>
