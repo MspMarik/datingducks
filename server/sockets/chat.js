@@ -1,13 +1,3 @@
-//NOT TOO SURE IF WE'LL NEED STORE FILES!!!!
-const crypto = require("crypto");
-const randomId = () => crypto.randomBytes(8).toString("hex");
-
-const { InMemorySessionStore } = require("./sessionStore");
-const sessionStore = new InMemorySessionStore();
-
-const { InMemoryMessageStore } = require("./messageStore");
-const messageStore = new InMemoryMessageStore();
-
 const chat = (io) => {
     io.on("connection", (socket) => {
         console.log("socket id", socket.id);
