@@ -19,9 +19,9 @@ const NavigationAuth = () => {
     <Link id="matchesTab" className="showlink float-start" to="/matches">
         Matches
     </Link>
-    <Link id="profileTab" className="showlink float-start" to="/profile">
+    {/* <Link id="profileTab" className="showlink float-start" to="/profile">
         Profile
-    </Link>
+    </Link> */}
     <Link id="chatTab" className="showlink float-start" to="/chat">
         Chat
     </Link>
