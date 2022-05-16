@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
+import io from "socket.io-client";
 import "../App.css";
 import {AuthContext} from '../firebase/Auth';
 
@@ -37,6 +38,18 @@ const Chat = () => {
 
     }, []);
 
+    function listOfChatrooms() {
+        let chatrooms = [];
+        for (let i = 1; i < 100; i++) {
+            chatrooms.push(
+                <ListGroup.Item>
+                    <Link to={`/chatroom/${i}`}> Chatroom {i} </Link>
+                </ListGroup.Item>
+            );
+        }
+        return chatrooms;
+    }
+
     if (loading) {
         return (
             <div>
@@ -48,13 +61,12 @@ const Chat = () => {
             <div className="container align-self-center card-container">
                 <Card className="card-shadow">
                     <Card.Header>
-                        <h2>Chat</h2>
+                        <h2>Chatrooms</h2>
                     </Card.Header>
                     <Card.Body>
+                        <Card.Title id="name">Choose a chatroom and have some fun!!!</Card.Title>
                         <ListGroup variant="flush" className="float-center">
-                            <ListGroup.Item>
-                                <Card.Text>Jan plz do chat ty</Card.Text>
-                            </ListGroup.Item>
+                            {listOfChatrooms()}
                         </ListGroup>
                     </Card.Body>
                 </Card>

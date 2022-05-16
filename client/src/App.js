@@ -9,6 +9,7 @@ import Matches from "./components/Matches";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import Chat from "./components/Chat";
+import Chatroom from "./components/Chatroom";
 import Navigation from "./components/Navigation";
 import {AuthProvider} from './firebase/Auth';
 import {AuthContext} from './firebase/Auth';
@@ -40,6 +41,7 @@ function App() {
                         <Route exact path="/matches" element={<Matches />} />
                         {/* <Route exact path="/profile" element={<Profile />} /> */}
                         <Route exact path="/chat" element={<Chat />} />
+                        <Route exact path="/chatroom/:num" element={<Chatroom />} />
                     </Routes>
                 </div>
             </div>
