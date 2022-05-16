@@ -145,7 +145,7 @@
     font-weight: bold;
 }
 
-.d-flexjustify-content-between {
+.d-flex {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
