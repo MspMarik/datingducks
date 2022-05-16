@@ -8,7 +8,7 @@ import Matches from "./components/Matches";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import Chat from "./components/Chat";
-import ChatPage from "./components/ChatPage";
+import Chatroom from "./components/Chatroom";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 function App() {
@@ -104,7 +104,7 @@ function App() {
                         <Route exact path="/matches" element={<Matches />} />
                         <Route exact path="/profile" element={<Profile />} />
                         <Route exact path="/chat" element={<Chat />} />
-                        <Route exact path="/chat/:username" element={<ChatPage />} />
+                        <Route exact path="/chatroom/:num" element={<Chatroom />} />
                     </Routes>
                 </div>
             </div>

@@ -17,12 +17,6 @@ import "../App.css";
 
 const Chat = () => {
     const [loading, setLoading] = useState(true);
-    // const [sessID, setSessID] = useState();
-    // const [username, setUsername] = useState("");
-    // const [users, setUsers] = useState([]);
-
-
-    // const socketRef = useRef();
 
     useEffect(() => {
         setLoading(true);
@@ -35,17 +29,16 @@ const Chat = () => {
         document.getElementById("profileTab").classList.remove("showlinkActive");
     }, []);
 
-    function usersToChat() {
-        //todo call db to get matches and loop to create elements
-        let users = [];
-        for (let i = 0; i < 3; i++) {
-            users.push(
+    function listOfChatrooms() {
+        let chatrooms = [];
+        for (let i = 1; i < 100; i++) {
+            chatrooms.push(
                 <ListGroup.Item>
-                    <Link to={`/chat/${i}`}> user {i} </Link>
+                    <Link to={`/chatroom/${i}`}> Chatroom {i} </Link>
                 </ListGroup.Item>
             );
         }
-        return users;
+        return chatrooms;
     }
 
     if (loading) {
@@ -59,12 +52,12 @@ const Chat = () => {
             <div className="container align-self-center card-container">
                 <Card className="card-shadow">
                     <Card.Header>
-                        <h2>Chat</h2>
+                        <h2>Chatrooms</h2>
                     </Card.Header>
                     <Card.Body>
-                        <Card.Title id="name">Username ???</Card.Title>
+                        <Card.Title id="name">Choose a chatroom and have some fun!!!</Card.Title>
                         <ListGroup variant="flush" className="float-center">
-                            {usersToChat()}
+                            {listOfChatrooms()}
                         </ListGroup>
                     </Card.Body>
                 </Card>
