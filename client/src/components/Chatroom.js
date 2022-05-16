@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -15,14 +15,23 @@ import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import io from "socket.io-client";
 import "../App.css";
+import {AuthContext} from '../firebase/Auth';
+import axios from "axios";
 
 const Chatroom = () => {
     const [loading, setLoading] = useState(true);
     const [state, setState] = useState({ message: "" });
     const [chat, setChat] = useState([]);
+    const [username, setUsername] = useState("");
+    const {currentUser} = useContext(AuthContext);
 
     const socketRef = useRef();
     let { num } = useParams();
+
+    let getUsername = async (id) => {
+        let userInfo = await axios.get('http://localhost:3001/date/' + id);
+        return userInfo.data.username;
+    }
 
     useEffect(() => {
         setLoading(true);
@@ -34,6 +43,12 @@ const Chatroom = () => {
         document.getElementById("logoutTab").classList.remove("showlinkActive");
         document.getElementById("profileTab").classList.remove("showlinkActive");
     }, []);
+
+    useEffect(() => {
+        // let id = currentUser.displayName;
+        // let uname = getUsername(id);
+        setUsername(currentUser.displayName);
+    }, [currentUser.displayName]);
 
     useEffect(() => {
         socketRef.current = io("/");
@@ -52,32 +67,16 @@ const Chatroom = () => {
     const onMessageSubmit = (e) => {
         e.preventDefault();
         let msgEle = document.getElementById("message").value;
-        // console.log([msgEle.name], msgEle.value);
-        // console.log(msgEle.value);
         console.log(msgEle);
-        // setState({ ...state, [msgEle.name]: msgEle.value });
         setState({ ...state, message: msgEle });
-        // socketRef.current.emit("private message", {
-        //   message: msgEle
-        // });
-        // socketRef.current.emit("repeat", {
-        //     message: msgEle,
-        //     room: "Chatroom " + num
-        // });
         socketRef.current.emit("direct message", {
             message: msgEle,
             room: "Chatroom " + num
         });
-        // socketRef.current.emit("private message", {
-        //     message: msgEle
-        // });
-        // e.preventDefault();
         // setState({ message: "", name: state.name });
         setState({ message: ""});
         msgEle = "";
-        // msgEle.focus();
-        // e.preventDefault();
-        // console.log(count++);
+        console.log(username);
     };
 
     const renderChat = () => {
