@@ -94,7 +94,7 @@ const Matches = () => {
         return (
             <div className="container align-self-center card-container">
                 <Card className="card-shadow">
-                    <Card.Header>
+                    <Card.Header className="card-header">
                         <h2>Matches</h2>
                     </Card.Header>
                     <Card.Body>

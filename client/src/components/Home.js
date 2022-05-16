@@ -106,17 +106,18 @@ const Home = () => {
                                 </Card.Text>
                                 <Card.Text id="bio">{content && content.bio}</Card.Text>
                             </ListGroup.Item>
-                            <ListGroup.Item>
+                            <ListGroup.Item id="ld-likes">
                                 <Card.Text className="fw-bold">Likes</Card.Text>
                                 {content && content.likes}
                             </ListGroup.Item>
-                            <ListGroup.Item>
+                            <ListGroup.Item id="ld-likes">
                                 <Card.Text className="fw-bold">Dislikes</Card.Text>
                                 {content && content.dlikes}
                             </ListGroup.Item>
                         </ListGroup>
                     </Card.Body>
                 </Card>
+
                 <OverlayTrigger placement="top" overlay={likeTooltip} delay={{ show: 250, hide: 400 }}>
                     <Button className="m-4" variant="success" onClick={likeProfile}>
                         <FontAwesomeIcon icon={faHeart} />

@@ -288,7 +288,7 @@ const Signup = () => {
                             {/* <Form.Control type="file" name="signupPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required /> */}
                             {/* <Form.File type="file" onChange={(e) => console.log(e.target.files[0])} label="Profile Picture" accept=".png,.jpg,.jpeg,.webp" /> */}
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" className="save-button">
                             Submit
                         </Button>
                     </Form>

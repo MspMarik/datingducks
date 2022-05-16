@@ -81,15 +81,15 @@ const Login = () => {
                     </Card.Header>
                     <Form className="p-3 text-start" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="loginUser">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control name="loginUser" type="text" placeholder="example@stevens.edu" required />
+                            <Form.Label className="form-label">Username</Form.Label>
+                            <Form.Control name="loginUser" type="text" placeholder="Username" required />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="loginPass">
                             <Form.Label>Password</Form.Label>
                             <Form.Control name="loginPass" type="password" placeholder="Password" required />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
+                        <Button variant="primary" type="submit" className="save-button">
                             Submit
                         </Button>
                     </Form>
