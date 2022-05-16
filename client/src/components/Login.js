@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
@@ -6,10 +6,13 @@ import Button from "react-bootstrap/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import {Navigate} from 'react-router-dom';
+import {AuthContext} from '../firebase/Auth';
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
+import {doSignInWithEmailAndPassword} from '../firebase/FirebaseFunctions';
 import "../App.css";
 
 const Login = () => {
@@ -22,21 +25,44 @@ const Login = () => {
         document.getElementById("loginTab").classList.add("showlinkActive");
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
+
         document.getElementById("chatTab").classList.remove("showlinkActive");
     }, []);
 
-    const handleSubmit = (event) => {
+    const {currentUser} = useContext(AuthContext);
+    const handleLogin = async (event) => {
+      event.preventDefault();
+      let {email, password} = event.target.elements;
+
+      try {
+        await doSignInWithEmailAndPassword(email.value, password.value);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    async function handleSubmit(event) {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            event.preventDefault();
+            event.stopPropagation();
+            setValidated(true);
+            let username = form.elements.loginUser.value;
+            let password = form.elements.loginPass.value;
+            try {
+                await doSignInWithEmailAndPassword(username, password);
+              } catch (error) {
+                alert(error);
+              }
+
         }
-
-        setValidated(true);
     };
-
+    if (currentUser) {
+        return <Navigate to='/' />;
+      }
     if (loading) {
         return (
             <div>

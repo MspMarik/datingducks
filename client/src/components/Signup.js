@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import {Navigate} from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faHeartCrack } from "@fortawesome/free-solid-svg-icons";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
@@ -11,26 +12,153 @@ import { useNavigate } from "react-router-dom";
 import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
+import {doCreateUserWithEmailAndPassword} from '../firebase/FirebaseFunctions';
+import {AuthContext} from '../firebase/Auth';
+import axios from "axios";
+import picone from "../profile/1.jpeg"
 
 const Signup = () => {
+    const {currentUser} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
+    let mongoId;
 
     useEffect(() => {
         setLoading(true);
         setLoading(false);
     }, []);
 
-    const handleSubmit = (event) => {
+    async function handleSubmit (event) {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
+        } else {
+            event.preventDefault();
+            event.stopPropagation();
+            setValidated(true);
+            // let pathtopic = "";
+            let formData = new FormData();
+            // let file = form.elements.signupPic.files[0]
+            // let d = new Date();
+            // let filename = d.getMonth().toString() + "-" + d.getDay().toString() + "-" + d.getFullYear().toString() + "_" + file.name;
+            let gender = form.elements.signupGender.value;
+            if (gender =="Goose (Other)") {
+                gender = form.elements.signupOtherGenderText.value
+            }
+            let mPref = form.elements.signupPref[0];
+            let fPref = form.elements.signupPref[1];
+            let oPref = form.elements.signupPref[2];
+            let aPref = form.elements.signupPref[3];
+            let pref = [];
+            if (aPref.checked) {
+                pref.push(aPref.value);
+            } else {
+                if (mPref.checked) {
+                    pref.push(mPref.value);
+                }
+                if (fPref.checked) {
+                    pref.push(fPref.value);
+                }
+                if (oPref.checked) {
+                    pref.push(oPref.value);
+                }
+            }
+            // let data = {
+            //     signupName: form.elements.signupName.value,
+            //         signupAge: form.elements.signupAge.value,
+            //         signupGender: gender,
+            //         signupEmail: form.elements.signupEmail.value,
+            //         pic: pathtopic,
+            //         signupUser: form.elements.signupUser.value,
+            //         signupPass: form.elements.signupPass.value,
+            //         signupBio: form.elements.signupBio.value,
+            //         signupLikes: form.elements.signupLikes.value,
+            //         signupDislikes: form.elements.signupDislikes.value,
+            //         signupStatus: form.elements.signupStatus.value,
+            //         signupPref: pref,
+            // }
+            formData.append("pic", form.elements.signupPic.value);
+            formData.append("signupName",form.elements.signupName.value);
+            formData.append("signupAge",form.elements.signupAge.value);
+            formData.append("signupGender",gender);
+            formData.append("signupEmail",form.elements.signupEmail.value);
+            formData.append("signupUser",form.elements.signupUser.value);
+            formData.append("signupPass",form.elements.signupPass.value);
+            formData.append("signupBio",form.elements.signupBio.value);
+            formData.append("signupLikes",form.elements.signupLikes.value);
+            formData.append("signupDislikes",form.elements.signupDislikes.value);
+            formData.append("signupStatus",form.elements.signupStatus.value);
+            formData.append("signupPref",pref);
+            console.log(formData)
+            let data = await axios.post('http://localhost:3001/date/', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data'
+                }
+            }).catch(function (error) {
+                console.log(error.toJSON());
+              }).then (function(response) {
+                  console.log(response)
+                  mongoId = response.data._id;
+
+              });
+            console.log(data);
+        
+            try {
+    
+              await doCreateUserWithEmailAndPassword(
+                form.elements.signupEmail.value,
+                form.elements.signupPass.value,
+                mongoId
+              );
+    
+            } catch (error) {
+              alert(error);
+            }
         }
-
-        setValidated(true);
     };
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        const form = e.currentTarget;
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+        }
+        //upload.single('signupPic');
+        
+        // let {data} = axios.post("http://localhost:3001/date/", 
+        //     {
+                // signupName:,
+                // signupAge:,
+                // signupGender:,
+                // signupEmail:,
+                // pic:,
+                // signupUser:,
+                // signupPass:,
+                // signupBio:,
+                // signupLikes:,
+                // signupDisikes:,
+                // signupStatus:,
+                // signupPref:,
 
+        //     }
+        //     );
+        const {signupName, signupEmail, signupPassword} = e.target.elements;
+    
+        try {
+
+          await doCreateUserWithEmailAndPassword(
+            signupEmail.value,
+            signupPassword.value,
+            signupName
+          );
+
+        } catch (error) {
+          alert(error);
+        }
+      };
+      if (currentUser) {
+        return <Navigate to='/' />;
+      }
     function mGender() {
         document.getElementById("mGender").setAttribute("required", "");
         document.getElementById("oGender").removeAttribute("required");
@@ -82,6 +210,9 @@ const Signup = () => {
         }
     }
 
+    if (currentUser) {
+        return <Navigate to='/' />;
+      }
     if (loading) {
         return (
             <div>
@@ -153,7 +284,8 @@ const Signup = () => {
                         </Form.Group>
                         <Form.Group controlId="signupPic" className="mb-3">
                             <Form.Label>Profile Picture</Form.Label>
-                            <Form.Control type="file" name="signupPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required />
+                            <Form.Check name="signupPic" id="pic1" type="radio" value="1" label="1" required /><img className="w60" src={picone} alt="profile picture" />
+                            {/* <Form.Control type="file" name="signupPic" accept="image/png, image/jpeg, image/jpg, image/webp, image/gif, image/svg, image/bmp" required /> */}
                             {/* <Form.File type="file" onChange={(e) => console.log(e.target.files[0])} label="Profile Picture" accept=".png,.jpg,.jpeg,.webp" /> */}
                         </Form.Group>
                         <Button variant="primary" type="submit" className="save-button">

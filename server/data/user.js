@@ -58,7 +58,7 @@ async function create(name, age, gender, email, pic, uname, pword, bio, likes, d
     if (typeof gender != "string") throw "gender is not a string";
 
     if (!prefs) throw "preferences not provided";
-    if (typeof prefs != "string") throw "preferences must be a string";
+    if (!Array.isArray(prefs)) throw "preferences must be an array";
 
     const userColl = await users2();
     const ifExist = await userColl.findOne({ name: name, email: email, username: uname });
@@ -121,13 +121,14 @@ async function checkMatch(uid, mid) {
     let match = false;
     const userColl = await users2();
     // need to check to see if they are in each others likes
-    if (user1.iducks.indexOf(mid) == 0 && user2.iducks.indexOf(uid) == 0) {
+    if (user1.iducks.indexOf(mid) != -1 && user2.iducks.indexOf(uid) != -1) {
         // need to check if they are matched first
         if (user1.matches.indexOf(mid) == -1 && user2.matches.indexOf(uid) == -1) {
             match = true;
-
-            let user1Matches = user1.matches.push(mid);
-            let user2Matches = user2.matches.push(uid);
+            user1.matches.push(mid);
+            user2.matches.push(uid);
+            let user1Matches = user1.matches;
+            let user2Matches = user2.matches;
 
             const updatedInfo1 = await userColl.updateOne({ _id: uid }, { $set: { matches: user1Matches } });
             if (updatedInfo1.modifiedCount === 0) {
@@ -167,20 +168,39 @@ async function addLike(uid, mid) {
     // TODO need to check to see if there is a match
     return await checkMatch(uid, mid);
 }
+async function getMatchId(id)
+{
+    let user  = await getID(id);
+    let matchIDs = user.matches;
+    let matchNames = [];
+    for(i of matchIDs)
+    {
+        let mName = await getID(i)
+        mName = mName.name;
+        matchNames.push(mName);
+    }
+    return matchNames;
+}
 
 async function remMatch(uid, mid) {
     if (!uid) throw "no id provided";
     if (typeof uid != "string") throw "user id is not a string";
     if (!mid) throw "no id provided";
     if (typeof mid != "string") throw "match id is not a string";
-    const userColl = await user();
+    const userColl = await users2();
     // TODO check if they are a match
-    if (!user1.matches.indexOf(mid) && !user2.matches.indexOf(uid)) {
-        let user1 = getID(uid);
-        let user2 = getID(mid);
-        let user1Matches = user1.matches.filter((user) => user != user2.id);
-        let user2Matches = user2.matches.filter((user) => user != user1.id);
-        let user1Ducks = user1.iducks.filter((user) => user != user2.id);
+    let user1, user2;
+    try {
+        user1 = await getID(uid);
+        user2 = await getID(mid);
+    } catch (e) {
+        throw e;
+    }
+    if (user1.matches.indexOf(mid) != -1 && user2.matches.indexOf(uid) != -1) {
+        let user1Matches = user1.matches.filter((user) => user != user2._id);
+        let user2Matches = user2.matches.filter((user) => user != user1._id);
+        let user1Ducks = user1.iducks.filter((user) => user != user2._id);
+        let user2Ducks = user2.iducks.filter((user) => user != user1._id);
         const updatedInfo1 = await userColl.updateOne({ _id: uid }, { $set: { matches: user1Matches, iducks: user1Ducks } });
         if (updatedInfo1.modifiedCount === 0) {
             throw "could not update matches or iducks successfully for user 1";
@@ -194,6 +214,15 @@ async function remMatch(uid, mid) {
 }
 
 async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, likes, dlikes, status, prefs) {
+    /*let oldprof;
+    try{
+       oldprof=await getID(id)
+    }
+    catch(e)
+    {
+        throw e;
+    }*/
+    //Possible errors likes and dislikes can recieve arrays maybe
     if (!name) throw "name must be provided";
     if (typeof name != "string") throw "name is not a string";
     if (name.trim().length == 0) throw "name is empty";
@@ -248,7 +277,7 @@ async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, 
     if (!prefs) throw "preferences not provided";
     if (typeof prefs != "string") throw "preferences must be a string";
 
-    const userColl = await user();
+    const userColl = await users2();
     const updatedInfo = await userColl.updateOne(
         { _id: id },
         {
@@ -271,13 +300,43 @@ async function updateUser(id, name, age, gender, email, pic, uname, pword, bio, 
     if (updatedInfo.modifiedCount === 0) {
         throw "could not update user";
     }
-    return getID(id);
+    return await getID(id);
 }
 
 async function getNext(id) {
+    const user = await getID(id);
+    const userList =  await getAll();
+    let resArr = [];
+    let isMatch=false;
+    let isLiked=false;
+    // if the user has no preference, everyone could be a potential profile
     // TODO get user collection, filter by preferences as an array
+    if (user.preferences.includes("Any") == false) {
+        userList.forEach((u) => {
+            if (user.preferences.includes(u.gender)) {
+                // check to see if the user prefers the current user
+                resArr.push(u);
+            }
+        });
+    } else {
+        resArr = userList;
+    }
+    for (let i = 0; i < resArr.length; i++) {
+        if(!(resArr[i]._id == id)){
+            if (resArr[i].preferences.includes(user.gender) == false) {
+                // if the user1 is not a pref of the user in the array, remove from the arr
+                resArr.splice(i, 1);
+                i--;
+           }
+        }
+    }
+
     // TODO check array length, get random number =< length
-    // TODO return profile
+    let num = Math.floor(Math.random() * (resArr.length));
+    let show = await getID(resArr[num]._id);
+
+    return show;
+    // TODO return profile ^
 }
 
 module.exports = {
@@ -286,6 +345,7 @@ module.exports = {
     getID,
     checkMatch,
     addLike,
+    getMatchId,
     remMatch,
     updateUser,
     getNext,

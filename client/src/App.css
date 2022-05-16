@@ -145,7 +145,7 @@
     font-weight: bold;
 }
 
-.d-flexjustify-content-between {
+.d-flex {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -185,4 +185,8 @@
 
 .update-prof {
     margin-top: -30px;
+}
+
+.w60 {
+    width: 60px;
 }
