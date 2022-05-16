@@ -69,7 +69,7 @@ const Home = () => {
         }
         document.getElementById("ducksTab").classList.add("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
+
         if (currentUser) {
             document.getElementById("logoutTab").classList.remove("showlinkActive");
         } else {

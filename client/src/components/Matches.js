@@ -31,7 +31,7 @@ const Matches = () => {
         }
         document.getElementById("matchesTab").classList.add("showlinkActive");
         document.getElementById("ducksTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
+
         if(currentUser)
         {
         document.getElementById("logoutTab").classList.remove("showlinkActive");

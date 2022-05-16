@@ -26,7 +26,7 @@ const Profile = () => {
         if(!currentUser){
             navigate("/login");
         }
-        document.getElementById("profileTab").classList.add("showlinkActive");
+
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
         if (currentUser) {

@@ -34,7 +34,7 @@ const Chat = () => {
         } else {
             document.getElementById("loginTab").classList.remove("showlinkActive");
         }
-        document.getElementById("profileTab").classList.remove("showlinkActive");
+
     }, []);
 
     if (loading) {
