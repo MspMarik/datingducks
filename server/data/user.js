@@ -168,6 +168,19 @@ async function addLike(uid, mid) {
     // TODO need to check to see if there is a match
     return await checkMatch(uid, mid);
 }
+async function getMatchId(id)
+{
+    let user  = await getID(id);
+    let matchIDs = user.matches;
+    let matchNames = [];
+    for(i of matchIDs)
+    {
+        let mName = await getID(i)
+        mName = mName.name;
+        matchNames.push(mName);
+    }
+    return matchNames;
+}
 
 async function remMatch(uid, mid) {
     if (!uid) throw "no id provided";
@@ -294,7 +307,8 @@ async function getNext(id) {
     const user = await getID(id);
     const userList =  await getAll();
     let resArr = [];
-
+    let isMatch=false;
+    let isLiked=false;
     // if the user has no preference, everyone could be a potential profile
     // TODO get user collection, filter by preferences as an array
     if (user.preferences.includes("Any") == false) {
@@ -316,7 +330,7 @@ async function getNext(id) {
     }
 
     // TODO check array length, get random number =< length
-    let num = Math.floor(Math.random() * (resArr.length + 1));
+    let num = Math.floor(Math.random() * (resArr.length));
     let show = await getID(resArr[num]._id);
 
     return show;
@@ -329,6 +343,7 @@ module.exports = {
     getID,
     checkMatch,
     addLike,
+    getMatchId,
     remMatch,
     updateUser,
     getNext,

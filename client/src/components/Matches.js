@@ -14,11 +14,13 @@ import logo from "../logo.svg";
 import markFace from "../testImg/mark-face.JPEG";
 import "../App.css";
 import {AuthContext} from '../firebase/Auth';
+import axios from "axios";
 
 const Matches = () => {
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
     const {currentUser} = useContext(AuthContext);
+    const [matches, setMatches] = useState(undefined);
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -35,35 +37,52 @@ const Matches = () => {
         document.getElementById("logoutTab").classList.remove("showlinkActive");
         }
         else{
-
-        
         document.getElementById("loginTab").classList.remove("showlinkActive");
         }
         document.getElementById("chatTab").classList.remove("showlinkActive");
+        async function getCurrUser(){
+            return await axios.get("http://localhost:3001/date/match/" + currentUser.displayName).then(function (response){
+                if (response.data) {
+                    setMatches(response.data);
+                }
+            });
+        }
+        let currUser = getCurrUser();
+
     }, []);
 
     function populateMatches() {
         //todo call db to get matches and loop to create elements
         let matches = [];
-        for (let i = 0; i < 10; i++) {
+        matches.forEach(element => {
+            async function getUser(){
+                return await axios.get("http://localhost:3001/date/" + element);
+            }
+            let user = getUser();
             matches.push(
                 <ListGroup.Item>
-                    <Card.Text>match {i}</Card.Text>
+                    <Card.Text>{user && user.data.name}</Card.Text>
                 </ListGroup.Item>
             );
-        }
+        });
         return matches;
     }
 
-    const handleSubmit = (event) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
+    const buildMatch = (match) => {
+        async function getU(id) {
+            return await axios.get("http://localhost:3001/date/" + id).then(function (response) {
+                return response.data.name;
+            })
         }
+        let name = getU(match)
+        return (<ListGroup.Item>
+            <Card.Text>{match}</Card.Text>
+        </ListGroup.Item>)
+    }
 
-        setValidated(true);
-    };
+    const listItems = matches && matches.map((match) => {
+        return buildMatch(match);
+    });
 
     if (loading) {
         return (
@@ -80,7 +99,7 @@ const Matches = () => {
                     </Card.Header>
                     <Card.Body>
                         <ListGroup variant="flush" className="float-center">
-                            {populateMatches()}
+                            {listItems}
                         </ListGroup>
                     </Card.Body>
                 </Card>

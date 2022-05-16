@@ -41,6 +41,20 @@ router.get('/:id', async (req, res) => {
     return res.status(404).json({ error:"Person not found" });
   }
 });
+router.get('/match/:id', async (req, res) => {
+  let result;
+
+  try{
+    result =await data.getMatchId(req.params.id);
+    
+
+  }
+  catch(e)
+  {
+    return res.status(400).json({ error:"cant get all matches" });
+  }
+  res.status(200).json(result);
+})
 router.get('/', async (req, res) => {
   let result
   try{
@@ -111,7 +125,7 @@ router.post('/', upload.array('pic'), async (req, res) =>
 
 
   pref = pref.split(",");
-  
+
   if(typeof name !="string"||typeof pref !="string"||typeof gender !="string"||typeof email!="string" || typeof pic !="string" ||typeof username != "string"||typeof password !="string" ||typeof bio !="string"|| typeof status!= "string"|| typeof age!="number", typeof likes !="string",typeof dislikes!= "string")
   {
     return res.status(400).json({ error:"Error: Wring type of info"});
@@ -235,7 +249,7 @@ router.get("/random/:id", async(req,res)=>{
   let id = req.params.id;
   let results;
   try{
-    results =await data.getRandom(id)
+    results =await data.getNext(id)
     
   }
   catch(e)

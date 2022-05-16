@@ -20,6 +20,7 @@ const Signup = () => {
     const {currentUser} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [validated, setValidated] = useState(false);
+    let mongoId;
 
     useEffect(() => {
         setLoading(true);
@@ -96,6 +97,10 @@ const Signup = () => {
                 }
             }).catch(function (error) {
                 console.log(error.toJSON());
+              }).then (function(response) {
+                  console.log(response)
+                  mongoId = response.data._id;
+
               });
             console.log(data);
         
@@ -104,7 +109,7 @@ const Signup = () => {
               await doCreateUserWithEmailAndPassword(
                 form.elements.signupEmail.value,
                 form.elements.signupPass.value,
-                form.elements.signupName.value
+                mongoId
               );
     
             } catch (error) {
