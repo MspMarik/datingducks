@@ -20,7 +20,7 @@ import axios from "axios";
 
 const Chatroom = () => {
     const [loading, setLoading] = useState(true);
-    const [state, setState] = useState({ message: "" });
+    const [state, setState] = useState({ message: "", name: "" });
     const [chat, setChat] = useState([]);
     const [username, setUsername] = useState("");
     const {currentUser} = useContext(AuthContext);
@@ -39,9 +39,11 @@ const Chatroom = () => {
         document.getElementById("chatTab").classList.add("showlinkActive");
         document.getElementById("ducksTab").classList.remove("showlinkActive");
         document.getElementById("matchesTab").classList.remove("showlinkActive");
-        document.getElementById("loginTab").classList.remove("showlinkActive");
-        document.getElementById("logoutTab").classList.remove("showlinkActive");
-        document.getElementById("profileTab").classList.remove("showlinkActive");
+        if (currentUser) {
+            document.getElementById("logoutTab").classList.remove("showlinkActive");
+        } else {
+            document.getElementById("loginTab").classList.remove("showlinkActive");
+        }
     }, []);
 
     useEffect(() => {
@@ -58,8 +60,8 @@ const Chatroom = () => {
     }, []);
 
     useEffect(() => {
-        socketRef.current.on("direct message", ({ message, room }) => {
-          setChat([...chat, { message }]);
+        socketRef.current.on("direct message", ({ message, name, room }) => {
+          setChat([...chat, { message, name }]);
         });
         socketRef.current.emit("user_join", "Chatroom " + num);
     }, [chat, num]);
@@ -68,22 +70,23 @@ const Chatroom = () => {
         e.preventDefault();
         let msgEle = document.getElementById("message").value;
         console.log(msgEle);
-        setState({ ...state, message: msgEle });
+        setState({ ...state, message: msgEle, name: username });
         socketRef.current.emit("direct message", {
             message: msgEle,
+            name: username,
             room: "Chatroom " + num
         });
         // setState({ message: "", name: state.name });
         setState({ message: ""});
         msgEle = "";
-        console.log(username);
+        // console.log(username);
     };
 
     const renderChat = () => {
-        return chat.map(({ message }, index) => (
+        return chat.map(({ message , name}, index) => (
           <div key={index}>
             <h3>
-              User: <span>{message}</span>
+              {name}: <span>{message}</span>
             </h3>
           </div>
         ));

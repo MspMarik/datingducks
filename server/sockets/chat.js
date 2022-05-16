@@ -12,9 +12,10 @@ const chat = (io) => {
         //     });
         // });
 
-        socket.on("direct message", ({message, room}) => {
+        socket.on("direct message", ({message, name, room}) => {
             io.to(room).emit("direct message", {
-                message
+                message,
+                name
             });
         });
 
