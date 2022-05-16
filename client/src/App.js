@@ -16,9 +16,36 @@ import {AuthContext} from './firebase/Auth';
 import PrivateRoute from './components/PrivateRoute';
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import React, { useContext, useState, useEffect, useRef } from "react";
+// let im = require('imagemagick');
 
 function App() {
 
+// im.identify('./testImg/mark-face.JPEG', function(err, features){
+//     if (err) throw err;
+//     console.log(features);
+//   });
+//   im.crop({
+//     srcPath: './testImg/mark-face.JPEG',
+//     dstPath: './testImg/mark-face.JPEG',
+//     width: 900,
+//     height: 900,
+//     quality: 1,
+//     gravity: "North"
+//   }, function(err, stdout, stderr){
+//     // foo
+//     console.log(err);
+//   });
+//   im.crop({
+//     srcPath: './testImg/mark-face.JPEG',
+//     dstPath: './testImg/mark-smol.JPEG',
+//     width: 900,
+//     height: 900,
+//     quality: 1,
+//     gravity: "North"
+//   }, function(err, stdout, stderr){
+//     // foo
+//     console.log(err);
+//   });
 
     return (
         <AuthProvider>
